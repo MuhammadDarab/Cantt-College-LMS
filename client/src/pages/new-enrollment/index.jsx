@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FaSave } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { admitStudent } from "../../redux/slices/students";
 // import { createStudent } from "../../service";
 
 const NewEnrollment = () => {
@@ -22,6 +24,7 @@ const NewEnrollment = () => {
   };
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <>
       <div>
@@ -99,10 +102,8 @@ const NewEnrollment = () => {
             onChange={updateFormData}
           />
         </div>
-        <div className="select-none p-4 font-medium text-xl text-white bg-green-400 hover:shadow-lg shadow-xl hover:shadow-green-400 shadow-green-400 rounded-xl cursor-pointer mb-6 transition-all flex items-center hover:scale-105 w-fit ml-auto" onClick={() => {
-          // createStudent(formData, () => {
-          //   navigate('/students')
-          // });
+        <div className="select-none p-4 font-medium text-xl text-white bg-green-400 hover:shadow-lg shadow-xl rounded-xl cursor-pointer mb-6 transition-all flex items-center hover:scale-105 w-fit ml-auto" onClick={() => {
+          dispatch(admitStudent(formData)).then(() => navigate('/students'));
         }}>
         <span>
           <FaSave />

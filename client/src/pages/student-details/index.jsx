@@ -162,11 +162,7 @@ const StudentDetails = () => {
           }}
           className={`select-none p-4 font-medium text-xl text-white ${
             !allowModification ? "bg-red-400" : "bg-green-400"
-          } hover:shadow-lg shadow-xl ${
-            !allowModification
-              ? "hover:shadow-red-400 shadow-red-400"
-              : "hover:shadow-green-400 hshadow-green-400"
-          }  rounded-xl cursor-pointer mb-6 transition-all flex items-center hover:scale-105 w-fit ml-auto`}
+          } hover:shadow-lg shadow-xl rounded-xl cursor-pointer mb-6 transition-all flex items-center hover:scale-105 w-fit ml-auto`}
         >
           <span>
             <FaPlus />

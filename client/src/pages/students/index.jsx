@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 export default function Students() {
   const navigate = useNavigate();
   const students = useSelector(state => state.students);
-  console.log(students, '<<<----');
 
   return (
     <>
@@ -20,7 +19,7 @@ export default function Students() {
           </div>
         </div>
         <div
-          className="select-none p-4 font-medium text-xl text-white bg-red-400 hover:shadow-lg shadow-xl hover:shadow-[#f87171bf] shadow-[#f87171bf] rounded-xl cursor-pointer mb-6 transition-all flex items-center hover:scale-105"
+          className="select-none p-4 font-medium text-xl text-white bg-red-400 hover:shadow-lg shadow-xl rounded-xl cursor-pointer mb-6 transition-all flex items-center hover:scale-105"
           onClick={() => navigate("/students/enroll-new")}
         >
           <span>
@@ -38,7 +37,7 @@ export default function Students() {
             <li
               key={index}
               onClick={() => navigate("/students/" + student._id)}
-              className="select-none group flex justify-between gap-x-6 py-5 hover:shadow-xl hover:shadow-red-400 px-4 transition-all hover:scale-105 hover:bg-red-400 hover:text-white rounded-xl border-red-400"
+              className="select-none group flex justify-between gap-x-6 py-5 hover:shadow-xl px-4 transition-all hover:scale-105 hover:bg-red-400 hover:text-white rounded-xl border-red-400"
             >
               <div className="flex min-w-0 gap-x-4">
                 <div className="min-w-0 flex-auto">

@@ -54,7 +54,7 @@ export default function Home({ children, selectedTab }) {
             <div
               key={index}
               onClick={() => navigate("/" + route.label.toLowerCase())}
-              className={`p-2 font-extralight text-xl text-white hover:bg-red-400 hover:p-3 hover:shadow-xl hover:shadow-[#f87171bf] rounded-xl cursor-pointer mb-6 transition-all flex items-center ${
+              className={`hover:font-bold p-2 font-extralight text-xl text-white hover:bg-red-400 hover:p-3 hover:shadow-xl rounded-xl cursor-pointer mb-6 transition-all flex items-center ${
                 selectedTab === route.label ? "border-red-400" : ""
               }`}
             >
