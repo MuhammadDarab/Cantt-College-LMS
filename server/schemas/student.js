@@ -25,7 +25,49 @@ const studentSchema = new mongoose.Schema({
   },
   enrolledIn: {
     type: String,
-    required: true
+    required: true,
+  },
+  subjects: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Subject",
+  }],
+  fatherCnic: {
+    type: String,
+    required: true,
+  },
+  fatherPhoneNo: {
+    type: String,
+    required: true,
+  },
+  previousBoard: {
+    type: String,
+    required: true,
+  },
+  previousAcademicType: {
+    type: String,
+    required: true,
+  },
+  previousAcademicMarks: {
+    type: String,
+    required: true,
+  },
+  chargeDetails: {
+    admissionFee: {
+      type: String,
+      required: true,     // Only when a new user is created, then never again.
+    },
+    tuitonFee: {
+      type: String,
+      required: true,     // Updates on 1st of every month start.
+    },
+    annualCharges: {
+      type: String,
+      required: true,     // Updates on 1st of every year start.
+    },
+    fine: {
+      type: String,
+      required: true,     // Conditionally updates.
+    },
   }
 });
 

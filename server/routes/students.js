@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const students = await Student.find({});
+    const students = await Student.find({}).populate('subjects');
     res.send(students);
   } catch (error) {
     res.send(error);
@@ -26,42 +26,54 @@ router.post("/get-by-id", async (req, res) => {
 });
 
 router.post("/admit-student", (req, res) => {
-  const { studentName, fatherName, rollNo, address, dateOfBirth, enrolledIn } =
+  const { studentName, fatherName, rollNo, address, dateOfBirth, enrolledIn, subjects, fatherCnic, fatherPhoneNo, previousBoard, previousAcademicType, previousAcademicMarks } =
     req.body;
-  console.log({
-    studentName,
-    fatherName,
-    rollNo,
-    address,
-    dateOfBirth,
-    enrolledIn,
-  });
   if (
     !studentName ||
     !fatherName ||
     !rollNo ||
     !address ||
     !dateOfBirth ||
-    !enrolledIn
+    !enrolledIn || 
+    !subjects ||
+    !subjects.length ||
+    !fatherCnic ||
+    !fatherPhoneNo ||
+    !previousBoard ||
+    !previousAcademicType ||
+    !previousAcademicMarks ||
+    !chargeDetails
   ) {
     res.send(400);
     return -1;
   }
-  // Create a new Student document
-  const newStudent = new Student({
+  let newStudentDetails = {
     studentName,
     fatherName,
     rollNo,
     address,
     dateOfBirth,
     enrolledIn,
-  });
+    subjects,
+    fatherCnic,
+    fatherPhoneNo,
+    previousBoard,
+    previousAcademicType,
+    previousAcademicMarks,
+    chargeDetails
+  }
+
+  // Create a new Student document
+  const newStudent = new Student(newStudentDetails);
 
   // Save the new student to the database
   newStudent
     .save()
     .then((student) => {
-      console.log("New student created:", student);
+      return student.populate('subjects');
+    })
+    .then((student) => {
+      console.log("New student created");
       res.status(201).json(student);
     })
     .catch((error) => {
@@ -82,7 +94,7 @@ router.post("/update-student", async (req, res) => {
       { _id: id },
       req.body.fields, // To only update the changed fields.
       { new: true } // Return the modified document rather than the original
-    );
+    ).populate('subjects');
 
     if (!updatedStudent) {
       res.status(404).send("Student not found");
@@ -93,6 +105,10 @@ router.post("/update-student", async (req, res) => {
   } catch (error) {
     res.send(error);
   }
+});
+
+router.post("/generate-voucher", (req, res) => {
+  
 });
 
 module.exports = router;
