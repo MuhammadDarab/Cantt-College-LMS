@@ -11,14 +11,8 @@ function connectWithDatabase() {
   // Connect to MongoDB
   mongoose
     .connect(`${url}/${dbName}`)
-    .then(() => {
-      console.log("Connected successfully to MongoDB");
-
-      // Now you can define your schema and models here
-    })
-    .catch((error) => {
-      console.error("Error occurred while connecting to MongoDB:", error);
-    });
+    .then(() => console.log("Connected successfully to MongoDB"))
+    .catch((error) => console.error("Error occurred while connecting to MongoDB:", error));
 }
 
 module.exports = {

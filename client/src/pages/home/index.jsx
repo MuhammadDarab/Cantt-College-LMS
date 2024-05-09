@@ -4,22 +4,47 @@ import {
   FaDollarSign,
   FaBookOpen,
   FaCalendar,
+  FaDoorOpen,
 } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useState } from "react";
+import { TbLogout2 } from "react-icons/tb";
+import { useSelector } from "react-redux";
 
 export default function Home({ children, selectedTab }) {
+  const user = useSelector(state => state.user);  
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const navigate = useNavigate();
 
-  const ROUTES = [
-    { label: "Dashboard", icon: <FaHome size={30} /> },
-    { label: "Attendance", icon: <FaCalendar size={30} /> },
-    { label: "Students", icon: <FaListUl size={30} /> },
-    { label: "Teachers", icon: <FaBookOpen size={30} /> },
-    { label: "Finances", icon: <FaDollarSign size={30} /> },
-  ];
+  let ROUTES = [];
+  if (user.role == 'principal') {
+    ROUTES = [
+      { label: "Dashboard", icon: <FaHome size={30} /> },
+      { label: "Attendance", icon: <FaCalendar size={30} /> },
+      { label: "Students", icon: <FaListUl size={30} /> },
+      { label: "Faculty", icon: <FaBookOpen size={30} /> },
+      { label: "Finances", icon: <FaDollarSign size={30} /> },
+      { label: "Logout", icon: <TbLogout2 size={30} /> },
+    ]
+  } else if (user.role == 'admin') {
+    ROUTES = [
+      { label: "Dashboard", icon: <FaHome size={30} /> },
+      { label: "Attendance", icon: <FaCalendar size={30} /> },
+      { label: "Students", icon: <FaListUl size={30} /> },
+      { label: "Faculty", icon: <FaBookOpen size={30} /> },
+      { label: "Finances", icon: <FaDollarSign size={30} /> },
+      { label: "Logout", icon: <TbLogout2 size={30} /> },
+    ]
+  } else if (user.role == 'teacher') {
+    ROUTES = [
+      { label: "Dashboard", icon: <FaHome size={30} /> },
+      { label: "Attendance", icon: <FaCalendar size={30} /> },
+      { label: "Students", icon: <FaListUl size={30} /> },
+      { label: "Logout", icon: <TbLogout2 size={30} /> },
+    ]
+  }
+  
 
   return (
     <div className="flex">
@@ -34,11 +59,12 @@ export default function Home({ children, selectedTab }) {
               setIsDrawerOpen(true);
             }
           }}>
-            {isDrawerOpen ? "Cantt College For Girls" : "LMS"}
+            {isDrawerOpen ? "Cantt College For Girls - CMS" : "CMS"}
           </div>
           {isDrawerOpen ? (
             <div className="text-white text-xl font-bold mb-4 ml-4">
               <GiHamburgerMenu
+                className="cursor-pointer"
                 onClick={() => {
                   setIsDrawerOpen(false);
                 }}
@@ -49,12 +75,17 @@ export default function Home({ children, selectedTab }) {
             <></>
           )}
         </div>
-        <div className="mt-8">
+        <div className="mt-8 flex flex-col h-[85vh]">
           {ROUTES.map((route, index) => (
             <div
               key={index}
-              onClick={() => navigate("/" + route.label.toLowerCase())}
-              className={`p-2 font-extralight text-xl text-white hover:bg-red-400 hover:p-3 hover:shadow-xl hover:shadow-[#f87171bf] rounded-xl cursor-pointer mb-6 transition-all flex items-center ${
+              onClick={() => {
+                if (route.label.toLowerCase() != 'logout')
+                  navigate("/" + route.label.toLowerCase())
+                else
+                  window.location.href = 'http://localhost:8000/logout';
+              }}
+              className={`${route.label == 'Logout' ? "mt-auto bg-red-400 p-2 hover:p-4 font-bold" : "hover:bg-red-400 hover:p-3 hover:font-bold font-extralight"} p-2 text-xl text-white hover:shadow-xl rounded-xl cursor-pointer mb-6 transition-all flex items-center ${
                 selectedTab === route.label ? "border-red-400" : ""
               }`}
             >

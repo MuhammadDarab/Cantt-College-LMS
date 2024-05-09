@@ -12,7 +12,7 @@ const ErrorHandler = () => {
         Sorry, unable to find what you
         <br /> are looking for
       </div>
-      <div className="text-lg select-none px-4 py-2 rounded-lg mt-8 bg-red-400 text-white shadow-xl hover:shadow-lg hover:shadow-red-400 shadow-red-400 font-extralight hover:scale-105 transition-all" onClick={() => {
+      <div className="cursor-pointer text-lg select-none px-4 py-2 rounded-lg mt-8 bg-red-400 text-white shadow-xl hover:shadow-lg font-extralight hover:scale-105 transition-all" onClick={() => {
         navigate('/dashboard')
       }}>
         Go Back
