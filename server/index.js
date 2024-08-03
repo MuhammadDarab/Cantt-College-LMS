@@ -23,7 +23,7 @@ passport.use(
     {
       clientID: OAuthDetails.client_id,
       clientSecret: OAuthDetails.client_secret,
-      callbackURL: OAuthDetails.redirect_uris[0]
+      callbackURL: OAuthDetails.redirect_uris[0] 
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log("PROFILE DATA", profile);
