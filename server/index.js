@@ -28,6 +28,10 @@ passport.use(
       callbackURL: "/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
+      console.log(
+        "PROFILE DATA", profile
+      )
+
       // Check if the user's email is allowed
       const parsedAllowedUsers = JSON.parse(
         process.env.AUTHORIZED_USERS || "[]"
@@ -122,7 +126,11 @@ app.get(
     } else {
       console.log('sorry, req.user does not exist!');
     }
-    res.cookie('authenticated', true);
+    res.cookie('authenticated', true, {
+      maxAge: 100000,
+      sameSite: "none",
+      secure: true
+    });
     res.redirect(process.env.CLIENT_APP_URL + "/dashboard");
   }
 );
