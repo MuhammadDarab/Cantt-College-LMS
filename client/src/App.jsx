@@ -24,6 +24,7 @@ function App() {
   const loggedInUser = useSelector((state) => state.user);
 
   useEffect(() => {
+    // Dispatch necessary items here!
     dispatch(fetchUser());
     dispatch(fetchStudents());
     dispatch(fetchSubjects());
