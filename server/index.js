@@ -11,9 +11,7 @@ const students = require("./routes/students");
 const subjects = require("./routes/subjects");
 const faculty = require("./routes/faculty");
 // const auth = require("./routes/auth");
-const {
-  web: OAuthDetails,
-} = require("./oauth.json");
+const { web: OAuthDetails } = require("./oauth.json");
 const User = require("./schemas/user");
 const Category = require("./schemas/category");
 const { initializeJobs } = require("./jobs/billing_cycle");
@@ -28,9 +26,7 @@ passport.use(
       callbackURL: "/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log(
-        "PROFILE DATA", profile
-      )
+      console.log("PROFILE DATA", profile);
 
       // Check if the user's email is allowed
       const parsedAllowedUsers = JSON.parse(
@@ -99,9 +95,10 @@ app.use(
     resave: true,
     saveUninitialized: false,
     cookie: {
-      maxAge: 100000,
+      httpOnly: true,
+      secure: true,
+      maxAge: 1000 * 60 * 60 * 48,
       sameSite: "none",
-      secure: true
     },
   })
 );
