@@ -89,7 +89,7 @@ app.use(
     resave: true,
     saveUninitialized: false,
     cookie: {
-      secure: false, // Change this to true if using HTTPS
+      secure: true,
       maxAge: 8.64e7, // 1 day in milliseconds
     },
   })
