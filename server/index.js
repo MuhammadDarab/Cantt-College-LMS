@@ -100,8 +100,10 @@ app.use(
       httpOnly: true,
       secure: true,
       maxAge: 1000 * 60 * 60 * 48,
-      sameSite: "none",
-    },
+      sameSite: 'none',
+      domain: 'https://cantt-college.vercel.app', // Adjust based on your domain
+      path: '/', // Typically the root path
+    }
   })
 );
 
