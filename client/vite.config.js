@@ -6,6 +6,6 @@ export default defineConfig({
   base: '/Cantt-College-LMS/',
   plugins: [react()],
   build: {
-    outDir: '../docs',
+    outDir: 'build',
   }
 })
