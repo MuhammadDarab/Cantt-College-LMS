@@ -87,23 +87,25 @@ const port = process.env.PORT || 8000;
 app.use(express.json());
 
 app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "your_secret_here",
-    resave: true,
-    saveUninitialized: false,
-    cookie: {
-      secure: true,
-      maxAge: 8.64e7, // 1 day in milliseconds
-      sameSite: "none"
-    },
-  })
-);
-app.use(
   cors({
     origin: process.env.CLIENT_APP_URL,
     credentials: true,
   })
 );
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "your_secret_here",
+    resave: true,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 100000,
+      sameSite: "none",
+      secure: true
+    },
+  })
+);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -120,17 +122,6 @@ app.get(
   }),
   function (req, res) {
     // Successful authentication, redirect to client-side route
-    if (req.user) {
-      console.log("yes, req.user does exist");
-      console.log(req.user);
-    } else {
-      console.log('sorry, req.user does not exist!');
-    }
-    res.cookie('authenticated', true, {
-      maxAge: 100000,
-      sameSite: "none",
-      secure: true
-    });
     res.redirect(process.env.CLIENT_APP_URL + "/dashboard");
   }
 );

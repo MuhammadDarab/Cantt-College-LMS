@@ -18,16 +18,16 @@ router.get(
 );
 
 router.get("/user", (req, res) => {
-    try {
-        const user = req.user;
-        if(user) {
-            res.json({...user, authorized: true});
-        } else {
-            res.json({authorized: false});
-        }
-    } catch (error) {
-        res.json({error: true});
+  try {
+    const user = req.user;
+    if (user) {
+      res.json({ ...user, authorized: true });
+    } else {
+      res.json({ authorized: false });
     }
+  } catch (error) {
+    res.json({ error: true });
+  }
 });
 
 module.exports = router;
