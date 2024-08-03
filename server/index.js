@@ -138,17 +138,15 @@ app.get("/logout", (req, res) => {
   });
 });
 
-let mongoStatus = 'Connecting..';
-
-app.get("/", (req, res) => res.send("<h1>Cantt College API</h1><br/>"+mongoStatus));
 app.use("/students", students);
 app.use("/subjects", subjects);
 app.use("/faculty", faculty);
 
 // Start the server
 app.listen(port, () => {
-  connectWithDatabase(mongoStatus);
   console.log(`Server is running on port ${port}`);
+  connectWithDatabase();
+  return true;
 });
 
-initializeJobs();
+// initializeJobs();

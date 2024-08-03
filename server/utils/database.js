@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-function connectWithDatabase(status) {
+function connectWithDatabase() {
   // Connection URL
   const url =
     "mongodb+srv://Mongo2099:futureman2099@cluster0.inxix.mongodb.net";
@@ -11,10 +11,7 @@ function connectWithDatabase(status) {
   // Connect to MongoDB
   mongoose
     .connect(`${url}/${dbName}`)
-    .then(() => {
-      console.log("Connected successfully to MongoDB")
-      status = 'Mongo Database connected successfully'
-    })
+    .then(() => console.log("Connected successfully to MongoDB"))
     .catch((error) => console.error("Error occurred while connecting to MongoDB:", error));
 }
 
