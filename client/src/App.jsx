@@ -1,7 +1,7 @@
 import Home from "./pages/home";
 import Students from "./pages/students";
 import Faculty from "./pages/faculty";
-import ErrorHandler from "./pages/error/index.tsx";
+import ErrorHandler from "./pages/error/index.jsx";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import StudentDetails from "./pages/student-details";
