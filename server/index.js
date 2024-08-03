@@ -114,7 +114,7 @@ app.get(
   }),
   function (req, res) {
     // Successful authentication, redirect to client-side route
-    res.redirect(process.env.CLIENT_APP_URL);
+    res.redirect(process.env.CLIENT_APP_URL + "/dashboard");
   }
 );
 
