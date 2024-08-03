@@ -37,7 +37,7 @@ passport.use(
         return done(null, false, {
           message:
             "Unauthorized email address. Please contact your administrator.",
-          redirectTo: "http://localhost:5173/not-authorized", // Redirect URL
+          redirectTo: process.env.CLIENT_APP_URL + "/not-authorized", // Redirect URL
         });
       }
 
@@ -94,7 +94,7 @@ app.use(
 );
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_APP_URL,
     credentials: true,
   })
 );
