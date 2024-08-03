@@ -96,7 +96,7 @@ app.use(
     cookie: {
       secure: true,
       maxAge: 100000,
-      sameSite: "none"
+      sameSite: "none" 
     },
   })
 );
