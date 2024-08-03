@@ -13,7 +13,7 @@ const faculty = require("./routes/faculty");
 // const auth = require("./routes/auth");
 const {
   web: OAuthDetails,
-} = require("./client_secret_1039111418724-58lqpbb0b238vcg56u13kp2hb0e20f7f.apps.googleusercontent.com.json");
+} = require("./oauth.json");
 const User = require("./schemas/user");
 const Category = require("./schemas/category");
 const { initializeJobs } = require("./jobs/billing_cycle");
