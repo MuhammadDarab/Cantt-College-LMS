@@ -102,7 +102,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 48,
       sameSite: "none",
       domain:
-        "https://arbitrary-elsi-test-orgs-3dafdc13.koyeb.app/auth/google/callback", // Adjust based on your domain
+        "http://arbitrary-elsi-test-orgs-3dafdc13.koyeb.app/auth/google/callback", // Adjust based on your domain
       // path: "/", // Typically the root path
     },
   })
