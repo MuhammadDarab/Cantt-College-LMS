@@ -55,7 +55,6 @@ passport.use(
           ).role,
           email: profile.emails[0].value,
         };
-        debugger;
         const newUser = new User(user);
 
         // Save the new user to the database
@@ -91,6 +90,7 @@ app.use(
     cookie: {
       secure: true,
       maxAge: 8.64e7, // 1 day in milliseconds
+      sameSite: "None"
     },
   })
 );
