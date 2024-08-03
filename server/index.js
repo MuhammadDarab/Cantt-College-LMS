@@ -21,13 +21,11 @@ require("dotenv").config();
 passport.use(
   new GoogleStrategy(
     {
-      clientID: OAuthDetails.client_id,
-      clientSecret: OAuthDetails.client_secret,
-      callbackURL: OAuthDetails.redirect_uris[0] 
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: process.env.BACKEND_APP_URL + "/auth/google/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log("PROFILE DATA", profile);
-
       // Check if the user's email is allowed
       const parsedAllowedUsers = JSON.parse(
         process.env.AUTHORIZED_USERS || "[]"
@@ -39,7 +37,7 @@ passport.use(
         return done(null, false, {
           message:
             "Unauthorized email address. Please contact your administrator.",
-          redirectTo: process.env.CLIENT_APP_URL + "/not-authorized", // Redirect URL
+          redirectTo: process.env.FRONTEND_APP_URL + "/not-authorized", // Redirect URL
         });
       }
 
@@ -84,7 +82,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: process.env.CLIENT_APP_URL,
+    origin: process.env.FRONTEND_APP_URL,
     credentials: true,
   })
 );
@@ -94,9 +92,9 @@ app.use(
   session({
     secret: "your_secret_here",
     cookie: {
-      secure: true,
-      maxAge: 100000,
-      sameSite: "none" 
+      secure: process.env.ENVIRONMENT == 'production' ? true : false,
+      maxAge: 8.64e+7,
+      sameSite: process.env.ENVIRONMENT == 'production' ? "none" : false
     },
   })
 );
@@ -113,11 +111,11 @@ app.get(
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: process.env.CLIENT_APP_URL + "/not-authorized",
+    failureRedirect: process.env.FRONTEND_APP_URL + "/not-authorized",
   }),
   function (req, res) {
     // Successful authentication, redirect to client-side route
-    res.redirect(process.env.CLIENT_APP_URL + "/dashboard");
+    res.redirect(process.env.FRONTEND_APP_URL + "/dashboard");
   }
 );
 
@@ -135,7 +133,7 @@ app.get("/logout", (req, res) => {
     if (err) {
       return next(err);
     }
-    res.redirect(process.env.CLIENT_APP_URL);
+    res.redirect(process.env.FRONTEND_APP_URL);
   });
 });
 

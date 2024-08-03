@@ -27,7 +27,7 @@ const Login = () => {
             <div
               className="lg:ml-1 transition-all cursor-pointer mt-12 mb-24 shadow-xl flex items-center font-light text-[#787878] bg-[#F0F0F0] lg:w-fit w-full px-4 py-2 rounded-xl hover:scale-110 hover:bg-red-400 hover:text-white hover:shadow-md group justify-center lg:justify-normal"
               onClick={() => {
-                window.location.href = "https://arbitrary-elsi-test-orgs-3dafdc13.koyeb.app/auth/google";
+                window.location.href = import.meta.env.VITE_BACKEND_APP_URL + "/auth/google";
               }}
             >
               <img

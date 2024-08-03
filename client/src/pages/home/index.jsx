@@ -101,7 +101,7 @@ export default function Home({ children, selectedTab }) {
                 if (route.label.toLowerCase() != 'logout')
                   navigate("/" + route.label.toLowerCase())
                 else
-                  window.location.href = 'https://arbitrary-elsi-test-orgs-3dafdc13.koyeb.app/logout';
+                  window.location.href = import.meta.env.VITE_BACKEND_APP_URL + '/logout';
               }}
               className={`${route.label == 'Logout' ? "mt-auto bg-red-400 p-2 hover:p-4 font-bold" : "hover:bg-red-400 hover:p-3 hover:font-bold font-extralight"} p-2 text-xl text-white hover:shadow-xl rounded-xl cursor-pointer mb-6 transition-all flex items-center ${
                 selectedTab === route.label ? "border-red-400" : ""

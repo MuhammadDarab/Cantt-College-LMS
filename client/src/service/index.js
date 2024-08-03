@@ -1,6 +1,6 @@
 import axios from "axios";
 const service = axios.create({
-  baseURL: "https://arbitrary-elsi-test-orgs-3dafdc13.koyeb.app",
+  baseURL: import.meta.env.VITE_BACKEND_APP_URL,
   headers: {
     "Content-Type": "application/json",
   },

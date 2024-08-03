@@ -13,7 +13,7 @@ router.get(
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
     // Successful authentication, redirect to client-side route
-    res.redirect(process.env.CLIENT_APP_URL + "/dashboard");
+    res.redirect(process.env.BACKEND_APP_URL + "/dashboard");
   }
 );
 
