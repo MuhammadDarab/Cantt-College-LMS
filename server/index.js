@@ -89,21 +89,13 @@ app.use(
   })
 );
 
-app.set("trust proxy", 1);
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "your_secret_here",
-    resave: true,
-    proxy: true,
-    saveUninitialized: false,
+    secret: "your_secret_here",
     cookie: {
-      httpOnly: true,
       secure: true,
-      maxAge: 1000 * 60 * 60 * 48,
-      sameSite: "none",
-      domain:
-        "http://arbitrary-elsi-test-orgs-3dafdc13.koyeb.app/auth/google/callback", // Adjust based on your domain
-      // path: "/", // Typically the root path
+      maxAge: 100000,
+      sameSite: "none"
     },
   })
 );
