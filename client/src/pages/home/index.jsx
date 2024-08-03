@@ -101,7 +101,7 @@ export default function Home({ children, selectedTab }) {
                 if (route.label.toLowerCase() != 'logout')
                   navigate("/" + route.label.toLowerCase())
                 else
-                  window.location.href = 'http://localhost:8000/logout';
+                  window.location.href = 'https://cantt-college-server.vercel.app/logout';
               }}
               className={`${route.label == 'Logout' ? "mt-auto bg-red-400 p-2 hover:p-4 font-bold" : "hover:bg-red-400 hover:p-3 hover:font-bold font-extralight"} p-2 text-xl text-white hover:shadow-xl rounded-xl cursor-pointer mb-6 transition-all flex items-center ${
                 selectedTab === route.label ? "border-red-400" : ""
