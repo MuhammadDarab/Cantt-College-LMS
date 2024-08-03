@@ -101,7 +101,7 @@ app.use(
       secure: true,
       maxAge: 1000 * 60 * 60 * 48,
       sameSite: 'none',
-      domain: 'https://cantt-college.vercel.app', // Adjust based on your domain
+      domain: 'https://arbitrary-elsi-test-orgs-3dafdc13.koyeb.app', // Adjust based on your domain
       path: '/', // Typically the root path
     }
   })
