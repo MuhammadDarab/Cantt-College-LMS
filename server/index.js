@@ -81,7 +81,6 @@ passport.deserializeUser((user, done) => {
 const app = express();
 const port = process.env.PORT || 8000;
 app.use(express.json());
-app.set("trust proxy", 1);
 
 app.use(
   cors({
@@ -90,6 +89,7 @@ app.use(
   })
 );
 
+app.set("trust proxy", 1);
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "your_secret_here",
