@@ -1,7 +1,7 @@
 import Home from "./pages/home";
 import Students from "./pages/students";
 import Faculty from "./pages/faculty";
-// import ErrorHandler from "./pages/error";
+import ErrorHandler from "./pages/error-handler";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import StudentDetails from "./pages/student-details";
@@ -127,7 +127,7 @@ function App() {
             </Home>
           }
         />
-        <Route path="*" element={<>404</>} />
+        <Route path="*" element={<ErrorHandler />} />
       </>
     );
   } else if (loggedInUser && loggedInUser.role == "teacher") {
