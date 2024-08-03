@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaSave } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { admitStudent } from "../../redux/slices/students";
 import { toast } from "../../utils/notify";
 import { checkPropertiesNotNull } from "../../utils/validation";
-import MultiSelectDropdown from "../../components/multiselect-dropdown";
 
 const NewEnrollment = () => {
+  const categories = useSelector((state) => state.categories);
   const [formData, setFormData] = useState({
     studentName: "",
     fatherName: "",
@@ -15,20 +15,45 @@ const NewEnrollment = () => {
     rollNo: "",
     enrolledIn: "",
     dateOfBirth: null,
-    subjects: [],
+    category: "",
     fatherCnic: "",
     fatherPhoneNo: "",
     previousBoard: "",
     previousAcademicType: "",
     previousAcademicMarks: "",
+    chargeDetails: {
+      admissionFee: "",
+      tuitonFee: "",
+      annualCharges: "",
+      bankName: "",
+      bankNo: "",
+    },
   });
+
+  useEffect(() => {
+    console.log("formData updated!", formData);
+  }, [formData]);
 
   const updateFormData = (ev) => {
     const { name, value } = ev.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const nestedProperties = name.split(".");
+
+    if (nestedProperties.length > 1) {
+      const parentProperty = nestedProperties[0];
+      const nestedProperty = nestedProperties[1];
+      setFormData({
+        ...formData,
+        [parentProperty]: {
+          ...formData[parentProperty],
+          [nestedProperty]: value,
+        },
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const navigate = useNavigate();
@@ -45,6 +70,9 @@ const NewEnrollment = () => {
         </div>
       </div>
       <div className="font-light text-slate-700 p-12 rounded-xl bg-white shadow-gray-300 shadow-xl text-2xl">
+        <div className="text-4xl text-slate-700 font-bold mb-8">
+          Personal Information
+        </div>
         <div className="flex mb-8">
           <div>
             <span className="text-slate-600 font-semibold">Name: </span>
@@ -90,11 +118,13 @@ const NewEnrollment = () => {
               className="border-b-2 border-red-400 outline-none"
               onChange={updateFormData}
             >
-              <option value="" disabled selected>
+              <option value="" disabled selected hidden>
                 Please select batch
               </option>
               <option value="First Year">First Year</option>
               <option value="Second Year">Second Year</option>
+              <option value="Third Year">Third Year</option>
+              <option value="Fourth Year">Fourth Year</option>
             </select>
           </div>
           <div className="ml-12">
@@ -124,18 +154,25 @@ const NewEnrollment = () => {
             />
           </div>
           <div className="ml-20">
-            <span className="text-slate-600 font-semibold">Subjects: </span>
+            <span className="text-slate-600 font-semibold">Category: </span>
             <br />
-            <MultiSelectDropdown
-              onChange={(subjects) =>
-                updateFormData({
-                  target: {
-                    name: "subjects",
-                    value: subjects.map((subject) => subject._id),
-                  },
-                })
-              }
-            />
+            <select
+              name="category"
+              className="border-b-2 border-red-400 outline-none"
+              onChange={updateFormData}
+            >
+              <option value="" disabled selected hidden>
+                Please select subjects
+              </option>
+              {categories.map((category) => (
+                <option key={category._id} value={category._id}>
+                  {category.title} -{" "}
+                  {category.subjects
+                    .map((subjects) => subjects.shortName)
+                    .join(", ")}
+                </option>
+              ))}
+            </select>
           </div>
           <br />
         </div>
@@ -174,7 +211,7 @@ const NewEnrollment = () => {
               className="border-b-2 border-red-400 outline-none"
               onChange={updateFormData}
             >
-              <option value="" disabled selected>
+              <option value="" disabled selected hidden>
                 Please select board
               </option>
               <option value="Federal Board">Federal Board</option>
@@ -191,7 +228,7 @@ const NewEnrollment = () => {
               className="border-b-2 border-red-400 outline-none"
               onChange={updateFormData}
             >
-              <option value="" disabled selected>
+              <option value="" disabled selected hidden>
                 Please select Type
               </option>
               <option value="FA">F.A.</option>
@@ -210,16 +247,79 @@ const NewEnrollment = () => {
             />
           </div>
         </div>
+        <br />
+        <section>
+          <hr className="mb-8 mt-4" />
+          <div className="text-4xl text-slate-700 font-bold">
+            Fee Information:
+          </div>
+          <br />
+          <div className="flex">
+            <div>
+              <div className="text-slate-600 font-semibold">Bank Name:</div>
+              <input
+                placeholder="Enter Bank Name"
+                className="border-b-2 border-red-400 outline-none mt-[2px] bg-transparent"
+                name="chargeDetails.bankName"
+                onChange={updateFormData}
+              />
+            </div>
+            <div className="ml-12">
+              <div className="text-slate-600 font-semibold">Bank No: </div>
+              <input
+                placeholder="Enter Bank Number"
+                className="border-b-2 border-red-400 outline-none mt-[2px] bg-transparent"
+                name="chargeDetails.bankNo"
+                onChange={updateFormData}
+              />
+            </div>
+          </div>{" "}
+          <br />
+          <div className="flex">
+            <div>
+              <div className="text-slate-600 font-semibold">Admission Fee:</div>
+              <input
+                placeholder="Enter Admission fee"
+                className="border-b-2 border-red-400 outline-none mt-[2px] bg-transparent"
+                name="chargeDetails.admissionFee"
+                onChange={updateFormData}
+              />
+            </div>
+            <div className="ml-12">
+              <div className="text-slate-600 font-semibold">Tuiton Fee: </div>
+              <input
+                placeholder="Enter Tuiton fee"
+                className="border-b-2 border-red-400 outline-none mt-[2px] bg-transparent"
+                name="chargeDetails.tuitonFee"
+                onChange={updateFormData}
+              />
+            </div>
+          </div>
+          <br />
+          <div className="flex">
+            <div>
+              <div className="text-slate-600 font-semibold">
+                Annual Charges:{" "}
+              </div>
+              <input
+                placeholder="Enter Annual Charges"
+                className="border-b-2 border-red-400 outline-none mt-[2px] bg-transparent"
+                name="chargeDetails.annualCharges"
+                onChange={updateFormData}
+              />
+            </div>
+          </div>
+        </section>
         <div
           className="select-none p-4 font-medium text-xl text-white bg-green-400 hover:shadow-lg shadow-xl rounded-xl cursor-pointer mb-6 transition-all flex items-center hover:scale-105 w-fit ml-auto"
           onClick={() => {
-            if (checkPropertiesNotNull(formData) && formData.subjects.length) {
+            if (checkPropertiesNotNull(formData)) {
               dispatch(admitStudent(formData)).then(() => {
                 navigate("/students");
                 toast("Student Enrolled Successfully!");
               });
             } else {
-              toast('Please fill all fields!')
+              toast("Please fill all fields!");
             }
           }}
         >

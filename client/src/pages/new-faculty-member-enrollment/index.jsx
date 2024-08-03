@@ -2,10 +2,8 @@ import { useState } from "react";
 import { FaSave } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { admitStudent } from "../../redux/slices/students";
 import { toast } from "../../utils/notify";
 import { checkPropertiesNotNull } from "../../utils/validation";
-import MultiSelectDropdown from "../../components/multiselect-dropdown";
 import { admitFacultyMember } from "../../redux/slices/faculty";
 
 const NewFacultyMemberEnrollment = () => {

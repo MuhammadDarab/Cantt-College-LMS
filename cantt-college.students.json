@@ -1,0 +1,230 @@
+[{
+  "_id": {
+    "$oid": "663e51cd4f36f058ff11caa0"
+  },
+  "studentName": "Muhammad Darab ",
+  "fatherName": "Muhammad Monib Malik",
+  "rollNo": "007",
+  "address": "280 D, Jubilee Town, Lahore.",
+  "dateOfBirth": "2024-05-22",
+  "enrolledIn": "Second Year",
+  "fatherCnic": "35202-4262762-9",
+  "fatherPhoneNo": "03104530163",
+  "previousBoard": "Federal Board",
+  "previousAcademicType": "Matriculation",
+  "previousAcademicMarks": "767",
+  "chargeDetails": {
+    "bankName": "ABC",
+    "bankNo": "12312312312321",
+    "transactionHistory": [
+      {
+        "month": "April",
+        "year": "2024",
+        "admissionFee": "1500",
+        "tuitonFee": "1500",
+        "annualCharges": "300",
+        "totalPaid": "3300",
+        "status": "Paid",
+        "transferredFromLastMonth": "0",
+        "installments": [
+          {
+            "datePaid": "17",
+            "paidAmount": "400",
+            "remaining": "300"
+          },
+          {
+            "datePaid": "18",
+            "paidAmount": "300",
+            "remaining": "0"
+          }
+        ],
+        "totalDue": "3300"
+      },
+      {
+        "month": "May",
+        "year": "2024",
+        "admissionFee": "1500",
+        "tuitonFee": "1500",
+        "annualCharges": "300",
+        "totalPaid": "3300",
+        "status": "Paid",
+        "transferredFromLastMonth": "0",
+        "installments": [
+          {
+            "datePaid": "17",
+            "paidAmount": "400",
+            "remaining": "300"
+          },
+          {
+            "datePaid": "18",
+            "paidAmount": "300",
+            "remaining": "0"
+          }
+        ],
+        "totalDue": "3300"
+      },
+      {
+        "month": "June",
+        "year": "2024",
+        "admissionFee": "1500",
+        "tuitonFee": "1500",
+        "annualCharges": "300",
+        "totalPaid": "3300",
+        "status": "Paid",
+        "transferredFromLastMonth": "0",
+        "installments": [
+          {
+            "datePaid": "17",
+            "paidAmount": "400",
+            "remaining": "300"
+          },
+          {
+            "datePaid": "18",
+            "paidAmount": "300",
+            "remaining": "0"
+          }
+        ],
+        "totalDue": "3300"
+      }
+    ]
+  },
+  "__v": 0,
+  "category": {
+    "$oid": "663e35f00cb3f4e85a084928"
+  }
+},
+{
+  "_id": {
+    "$oid": "66408f148fe12106e571e4ed"
+  },
+  "studentName": "Muhammad Bassam",
+  "fatherName": "Muhammad Monib Malik",
+  "rollNo": "005",
+  "address": "280 D, Jubilee Town, Lahore.",
+  "dateOfBirth": "2024-05-22",
+  "enrolledIn": "Fourth Year",
+  "category": {
+    "$oid": "663e36240cb3f4e85a084929"
+  },
+  "fatherCnic": "35202-4262762-9",
+  "fatherPhoneNo": "03104530163",
+  "previousBoard": "Others",
+  "previousAcademicType": "FA",
+  "previousAcademicMarks": "997",
+  "chargeDetails": {
+    "bankName": "ABC",
+    "bankNo": "12312312312321",
+    "transactionHistory": [
+      {
+        "month": "April",
+        "year": "2024",
+        "admissionFee": "1500",
+        "tuitonFee": "1500",
+        "annualCharges": "300",
+        "totalPaid": "700",
+        "status": "Partial",
+        "installments": [
+          {
+            "datePaid": "17",
+            "paidAmount": "400"
+          },
+          {
+            "datePaid": "18",
+            "paidAmount": "300"
+          }
+        ]
+      }
+    ]
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66408f418fe12106e571e4f1"
+  },
+  "studentName": "Muhammad Faizan",
+  "fatherName": "Javaid SAB",
+  "rollNo": "22",
+  "address": "Combo Colony, Ichra, Lahore. SAB",
+  "dateOfBirth": "2024-05-23",
+  "enrolledIn": "Third Year",
+  "category": {
+    "$oid": "663e3a3e0cb3f4e85a08492e"
+  },
+  "fatherCnic": "123",
+  "fatherPhoneNo": "123123",
+  "previousBoard": "Federal Board",
+  "previousAcademicType": "FA",
+  "previousAcademicMarks": "760~",
+  "chargeDetails": {
+    "bankName": "ABC",
+    "bankNo": "12312312312321",
+    "transactionHistory": [
+      {
+        "month": "April",
+        "year": "2024",
+        "admissionFee": "1500",
+        "tuitonFee": "1500",
+        "annualCharges": "300",
+        "totalPaid": "700",
+        "status": "Partial",
+        "installments": [
+          {
+            "datePaid": "17",
+            "paidAmount": "400"
+          },
+          {
+            "datePaid": "18",
+            "paidAmount": "300"
+          }
+        ]
+      }
+    ]
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6642124adf49ae830e3389d3"
+  },
+  "studentName": "Muhammad Darab",
+  "fatherName": "Muhammad Monib Malik",
+  "rollNo": "031",
+  "address": "280 D, Jubilee Town, Lahore.",
+  "dateOfBirth": "2024-05-22",
+  "enrolledIn": "First Year",
+  "category": {
+    "$oid": "663e357f0cb3f4e85a084927"
+  },
+  "fatherCnic": "35202-4262762-9",
+  "fatherPhoneNo": "03104530163",
+  "previousBoard": "Pindi Board",
+  "previousAcademicType": "Matriculation",
+  "previousAcademicMarks": "882",
+  "chargeDetails": {
+    "bankName": "ABC",
+    "bankNo": "12312312312321",
+    "transactionHistory": [
+      {
+        "month": "April",
+        "year": "2024",
+        "admissionFee": "1500",
+        "tuitonFee": "1500",
+        "annualCharges": "300",
+        "totalPaid": "700",
+        "status": "Partial",
+        "installments": [
+          {
+            "datePaid": "17",
+            "paidAmount": "400"
+          },
+          {
+            "datePaid": "18",
+            "paidAmount": "300"
+          }
+        ]
+      }
+    ]
+  },
+  "__v": 0
+}]

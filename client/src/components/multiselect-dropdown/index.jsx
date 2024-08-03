@@ -9,7 +9,7 @@ const MultiSelectDropdown = ({
   const [isOpen, setIsOpen] = useState(false);
   const [updatedDefaultValue, setUpdatedDefaultValue] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const options = useSelector((state) => state.subjects);
+  const options = useSelector((state) => state.categories);
 
   useEffect(() => {
     if (defaultValue.length > 0 && !updatedDefaultValue){

@@ -4,17 +4,30 @@ import {
   FaDollarSign,
   FaBookOpen,
   FaCalendar,
-  FaDoorOpen,
+  FaShieldAlt,
 } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TbLogout2 } from "react-icons/tb";
 import { useSelector } from "react-redux";
 
 export default function Home({ children, selectedTab }) {
   const user = useSelector(state => state.user);  
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  useEffect(() => {
+    const isDrawerOpenSaved = JSON.parse(localStorage.getItem('isDrawerOpen'));
+    if (isDrawerOpenSaved == true || isDrawerOpenSaved == false) {
+      setIsDrawerOpen(isDrawerOpenSaved);
+    }
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 1700) {
+        setIsDrawerOpen(false);
+      } else {
+        setIsDrawerOpen(true);
+      }
+    })
+  }, [])
   const navigate = useNavigate();
 
   let ROUTES = [];
@@ -25,6 +38,7 @@ export default function Home({ children, selectedTab }) {
       { label: "Students", icon: <FaListUl size={30} /> },
       { label: "Faculty", icon: <FaBookOpen size={30} /> },
       { label: "Finances", icon: <FaDollarSign size={30} /> },
+      { label: "Authorization", icon: <FaShieldAlt size={30} /> },
       { label: "Logout", icon: <TbLogout2 size={30} /> },
     ]
   } else if (user.role == 'admin') {
@@ -56,7 +70,10 @@ export default function Home({ children, selectedTab }) {
         <div className="p-2 flex items-center justify-center">
           <div className="text-white text-xl font-bold border-b-red-400 border-b-2 mb-4 whitespace-nowrap cursor-pointer" onClick={() => {
             if (!isDrawerOpen) {
-              setIsDrawerOpen(true);
+              if (window.innerWidth > 1700) {
+                setIsDrawerOpen(true);
+                localStorage.setItem('isDrawerOpen', true);
+              }
             }
           }}>
             {isDrawerOpen ? "Cantt College For Girls - CMS" : "CMS"}
@@ -67,6 +84,7 @@ export default function Home({ children, selectedTab }) {
                 className="cursor-pointer"
                 onClick={() => {
                   setIsDrawerOpen(false);
+                  localStorage.setItem('isDrawerOpen', false);
                 }}
                 size={30}
               />

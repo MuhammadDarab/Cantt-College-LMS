@@ -4,7 +4,7 @@ import service from "../../service";
 export const fetchStudents = createAsyncThunk(
   "students/fetchStudents",
   async () => {
-    const response = await service.get("/students");
+    const response = await service.get("/students/get-all-students");
     return response.data;
   }
 );

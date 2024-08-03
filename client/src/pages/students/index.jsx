@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { FaCheckCircle, FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { MdPending } from "react-icons/md";
 
 export default function Students() {
   const navigate = useNavigate();
@@ -60,7 +61,11 @@ export default function Students() {
                     "\u00A0" +
                     student.rollNo +
                     "\u00A0" +
-                    student.subjects.map((item) => item.name).join("\u00A0");
+                    student.category.title +
+                    "\u00A0" +
+                    student.category.subjects
+                      .map((item) => item.name)
+                      .join("\u00A0");
                   return specifcItems
                     .toUpperCase()
                     .includes(ev.target.value.toUpperCase());
@@ -104,9 +109,16 @@ export default function Students() {
                         {student.enrolledIn}
                       </p>
                       <p>
+                        <span className="font-semibold">Category:</span>{" "}
+                        <span className="text-red-400 font-bold group-hover:text-white">
+                          &nbsp;
+                          {student.category.title}
+                        </span>
+                      </p>
+                      <p>
                         <span className="font-semibold">Subjects:</span>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        {student.subjects.map((subject) => (
+                        {student.category.subjects.map((subject) => (
                           <span
                             key={subject._id}
                             className="inline-block bg-red-200 text-red-800 px-2 py-1 rounded-md text-sm mr-2 mb-2 group-hover:bg-gray-200"
@@ -124,13 +136,29 @@ export default function Students() {
                         Fee Information:
                       </div>
                       <div className="flex items-center mb-2">
-                        <span className="text-green-500 font-semibold group-hover:text-white text-3xl">
-                          Fee Status: Paid
+                        <span
+                          className={`${
+                            student.chargeDetails?.areDuesCleared
+                              ? "text-green-500"
+                              : "text-red-500"
+                          } font-semibold group-hover:text-white text-3xl`}
+                        >
+                          Fee Status:{" "}
+                          {student.chargeDetails?.areDuesCleared
+                            ? "Paid"
+                            : "Pending"}
                         </span>
-                        <FaCheckCircle
-                          className="text-green-500 ml-2 group-hover:text-white"
-                          size={30}
-                        />
+                        {student.chargeDetails?.areDuesCleared ? (
+                          <FaCheckCircle
+                            className="text-green-500 ml-2 group-hover:text-white"
+                            size={30}
+                          />
+                        ) : (
+                          <MdPending
+                            className="text-red-500 ml-2 group-hover:text-white"
+                            size={30}
+                          />
+                        )}
                       </div>
                       <div className="flex items-center">
                         <span className="text-slate-600 font-medium group-hover:text-white">

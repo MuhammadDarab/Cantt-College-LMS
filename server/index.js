@@ -12,6 +12,8 @@ const subjects = require("./routes/subjects");
 const faculty = require("./routes/faculty");
 // const auth = require("./routes/auth");
 const User = require("./schemas/user");
+const Category = require("./schemas/category");
+const { initializeJobs } = require("./jobs/billing_cycle");
 require("dotenv").config();
 
 // Passport configuration
@@ -32,10 +34,10 @@ passport.use(
         (user) => user.email == profile.emails[0].value
       );
       if (!allowedUser) {
-        return done(
-          "Unauthorized email address\nPlease contact your administrator",
-          null
-        );
+        return done(null, false, {
+          message: "Unauthorized email address. Please contact your administrator.",
+          redirectTo: "http://localhost:5173/not-authorized", // Redirect URL
+        })
       }
 
       // Check if the user already exists in the database
@@ -70,13 +72,6 @@ passport.serializeUser((user, done) => {
   done(null, user);
 });
 
-// passport.deserializeUser(async (user, done) => {
-//     const loggedInUser = await User.findOne({ googleId: user.googleId });
-//     if (loggedInUser) {
-//       done(null, loggedInUser);
-//     }
-//   });
-
 passport.deserializeUser((user, done) => {
   done(null, user);
 });
@@ -92,7 +87,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       secure: false, // Change this to true if using HTTPS
-      maxAge: 8.64e+7, // 1 day in milliseconds
+      maxAge: 8.64e7, // 1 day in milliseconds
     },
   })
 );
@@ -113,7 +108,7 @@ app.get(
 
 app.get(
   "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
+  passport.authenticate("google", { failureRedirect: "http://localhost:5173/not-authorized" }),
   function (req, res) {
     // Successful authentication, redirect to client-side route
     res.redirect("http://localhost:5173/dashboard");
@@ -147,3 +142,5 @@ app.listen(port, () => {
   connectWithDatabase();
   console.log(`Server is running on port ${port}`);
 });
+
+initializeJobs();

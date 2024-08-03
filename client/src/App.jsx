@@ -12,10 +12,12 @@ import { useEffect } from "react";
 import { fetchSubjects } from "./redux/slices/subjects";
 import { fetchUser } from "./redux/slices/user";
 import { fetchFacultyMembers } from "./redux/slices/faculty";
-import NewFacultyMemberEnrollment from "./pages/new_faculty_member_enrollment";
+import NewFacultyMemberEnrollment from "./pages/new-faculty-member-enrollment";
 import FacultyDetails from "./pages/faculty-details";
 import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
+import { fetchCategories } from "./redux/slices/categories";
+import NotAuthorized from "./pages/not-authorized";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,8 +26,9 @@ function App() {
   useEffect(() => {
     dispatch(fetchUser());
     dispatch(fetchStudents());
-    dispatch(fetchFacultyMembers());
     dispatch(fetchSubjects());
+    dispatch(fetchCategories());
+    dispatch(fetchFacultyMembers());
   }, []);
 
   let RoleBasedRoutes = <></>;
@@ -35,7 +38,11 @@ function App() {
       <>
         <Route
           path="/dashboard"
-          element={<Home selectedTab="Dashboard"><Dashboard /></Home>}
+          element={
+            <Home selectedTab="Dashboard">
+              <Dashboard />
+            </Home>
+          }
         />
         <Route
           path="/students"
@@ -102,8 +109,22 @@ function App() {
           }
         />
         <Route
+          path="/authorization"
+          element={
+            <Home selectedTab="Authorization">
+              <b className="text-gray-700">Authorization Tab</b>
+              <br />
+              <p className="text-gray-700">You may add, allow and authorize user over here!</p>
+            </Home>
+          }
+        />
+        <Route
           path="/*"
-          element={<Home selectedTab="Dashboard"><Dashboard /></Home>}
+          element={
+            <Home selectedTab="Dashboard">
+              <Dashboard />
+            </Home>
+          }
         />
         <Route path="*" element={<ErrorHandler />} />
       </>
@@ -113,7 +134,11 @@ function App() {
       <>
         <Route
           path="/dashboard"
-          element={<Home selectedTab="Dashboard"><Dashboard /></Home>}
+          element={
+            <Home selectedTab="Dashboard">
+              <Dashboard />
+            </Home>
+          }
         />
         <Route
           path="/students"
@@ -141,7 +166,11 @@ function App() {
         />
         <Route
           path="/*"
-          element={<Home selectedTab="Dashboard"><Dashboard /></Home>}
+          element={
+            <Home selectedTab="Dashboard">
+              <Dashboard />
+            </Home>
+          }
         />
         <Route path="*" element={<ErrorHandler />} />
       </>
@@ -151,7 +180,11 @@ function App() {
       <>
         <Route
           path="/dashboard"
-          element={<Home selectedTab="Dashboard"><Dashboard /></Home>}
+          element={
+            <Home selectedTab="Dashboard">
+              <Dashboard />
+            </Home>
+          }
         />
         <Route
           path="/students"
@@ -223,6 +256,7 @@ function App() {
   } else {
     RoleBasedRoutes = (
       <>
+        <Route path="/not-authorized" element={<NotAuthorized />} />
         <Route path="*" element={<Login />} />
       </>
     );

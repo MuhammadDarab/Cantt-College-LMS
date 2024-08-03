@@ -27,10 +27,10 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  subjects: [{
+  category: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Subject",
-  }],
+    ref: "Category",
+  },
   fatherCnic: {
     type: String,
     required: true,
@@ -52,26 +52,25 @@ const studentSchema = new mongoose.Schema({
     required: true,
   },
   chargeDetails: {
-    admissionFee: {
-      type: String,
-      required: true,     // Only when a new user is created, then never again.
-    },
-    tuitonFee: {
-      type: String,
-      required: true,     // Updates on 1st of every month start.
-    },
-    annualCharges: {
-      type: String,
-      required: true,     // Updates on 1st of every year start.
-    },
-    fine: {
-      type: String,
-      required: true,     // Conditionally updates.
-    },
-  }
+    bankName: String,             // Al-barka
+    bankNo: String,               // 000912499124123123
+    transactionHistory: [{
+      month: String,              // April
+      year: String,               // 2024
+      admissionFee: String,       // 3000
+      tuitonFee: String,          // 2000
+      annualCharges: String,      // 1000
+      totalPaid: String,          // 1000
+      status: String,             // partial | pending | paid
+      installments: [{
+        datePaid: String,         // 12 April, 2024
+        paidAmount: String,       // 1000
+      }],
+    }],
+  },
 });
 
 // Create a model using the schema
-const Student = mongoose.model("Student", studentSchema);
+const Student = mongoose.model("Student", studentSchema, "students");
 
 module.exports = Student;

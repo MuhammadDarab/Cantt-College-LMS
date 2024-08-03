@@ -1,0 +1,31 @@
+{
+  "chargeDetails": [
+    {
+      "month": "April 2022",
+      "admission": "10",
+      "tuiton": "10",
+      "annual": "0",
+      "total": "30",
+      "paid": "10",
+      "remaining": "20",
+      "status": "partial",
+      "installments": [
+        {
+          "datePaid": "12",
+          "paidAmount": "10",
+          "remaining": "20"
+        },
+        {
+          "datePaid": "16",
+          "paidAmount": "10",
+          "remaining": "10"
+        },
+        {
+          "datePaid": "22",
+          "paidAmount": "10",
+          "remaining": "0"
+        }
+      ]
+    }
+  ]
+}
