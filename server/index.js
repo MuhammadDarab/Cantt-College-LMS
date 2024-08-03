@@ -90,7 +90,7 @@ app.use(
     cookie: {
       secure: true,
       maxAge: 8.64e7, // 1 day in milliseconds
-      sameSite: "None"
+      sameSite: "none"
     },
   })
 );
