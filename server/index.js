@@ -116,6 +116,13 @@ app.get(
   }),
   function (req, res) {
     // Successful authentication, redirect to client-side route
+    if (req.user) {
+      console.log("yes, req.user does exist");
+      console.log(req.user);
+    } else {
+      console.log('sorry, req.user does not exist!');
+    }
+    res.cookie('authenticated', true);
     res.redirect(process.env.CLIENT_APP_URL + "/dashboard");
   }
 );
