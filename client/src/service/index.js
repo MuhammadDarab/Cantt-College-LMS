@@ -1,6 +1,6 @@
 import axios from "axios";
 const service = axios.create({
-  baseURL: "https://cantt-college-server.vercel.app",
+  baseURL: "https://arbitrary-elsi-test-orgs-3dafdc13.koyeb.app",
   headers: {
     "Content-Type": "application/json",
   },
