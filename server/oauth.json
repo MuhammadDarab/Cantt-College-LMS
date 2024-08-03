@@ -1,1 +1,13 @@
-{"web":{"client_id":"1039111418724-g9mb361o8947kpcthknjp19nfmsu1q1g.apps.googleusercontent.com","project_id":"cantt-college","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","redirect_uris":["https://arbitrary-elsi-test-orgs-3dafdc13.koyeb.app/auth/google/callback"]}}
+{
+  "web": {
+    "client_id": "1039111418724-r6jlbfnp4oi1bcd57mn4obhfft5dnuvh.apps.googleusercontent.com",
+    "project_id": "cantt-college",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "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",
+    "redirect_uris": [
+      "https://arbitrary-elsi-test-orgs-3dafdc13.koyeb.app/auth/google/callback"
+    ]
+  }
+}
