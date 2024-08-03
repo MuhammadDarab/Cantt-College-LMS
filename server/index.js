@@ -11,6 +11,7 @@ const students = require("./routes/students");
 const subjects = require("./routes/subjects");
 const faculty = require("./routes/faculty");
 // const auth = require("./routes/auth");
+const { web: OAuthDetails } = require("./client_secret_1039111418724-58lqpbb0b238vcg56u13kp2hb0e20f7f.apps.googleusercontent.com.json");
 const User = require("./schemas/user");
 const Category = require("./schemas/category");
 const { initializeJobs } = require("./jobs/billing_cycle");
@@ -20,9 +21,8 @@ require("dotenv").config();
 passport.use(
   new GoogleStrategy(
     {
-      clientID:
-        "367258283721-cd07uakjfir1lmi3u83ag2aenu52fvpi.apps.googleusercontent.com",
-      clientSecret: "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",
+      clientID: OAuthDetails.client_id,
+      clientSecret: OAuthDetails.client_secret,
       callbackURL: "/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
@@ -35,9 +35,10 @@ passport.use(
       );
       if (!allowedUser) {
         return done(null, false, {
-          message: "Unauthorized email address. Please contact your administrator.",
+          message:
+            "Unauthorized email address. Please contact your administrator.",
           redirectTo: "http://localhost:5173/not-authorized", // Redirect URL
-        })
+        });
       }
 
       // Check if the user already exists in the database
@@ -108,10 +109,12 @@ app.get(
 
 app.get(
   "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "http://localhost:5173/not-authorized" }),
+  passport.authenticate("google", {
+    failureRedirect: process.env.CLIENT_APP_URL + "/not-authorized",
+  }),
   function (req, res) {
     // Successful authentication, redirect to client-side route
-    res.redirect("http://localhost:5173/dashboard");
+    res.redirect(process.env.CLIENT_APP_URL);
   }
 );
 
@@ -129,7 +132,7 @@ app.get("/logout", (req, res) => {
     if (err) {
       return next(err);
     }
-    res.redirect("http://localhost:5173/");
+    res.redirect(process.env.CLIENT_APP_URL);
   });
 });
 
