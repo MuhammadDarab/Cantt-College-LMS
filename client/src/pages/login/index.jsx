@@ -1,9 +1,21 @@
+import { useEffect, useState } from "react";
 import "./login.module.css";
 
 const Login = () => {
+  const [innerWidth, setInnerWidth] = useState(1024);
+
+  useEffect(() => {
+    window.onresize = (event) => {
+      setInnerWidth(event.target.innerWidth)
+    }
+  }, []);
+
   return (
     <div className="login">
-      <div className="absolute z-10 justify-center flex text-left lg:justify-normal lg:items-center w-screen h-screen lg:w-[95vw] lg:h-[95vh] bg-small-img lg:bg-none bg-cover bg-no-repeat">
+      <div 
+        className="absolute z-10 justify-center flex text-left lg:justify-normal lg:items-center w-screen h-screen lg:w-[95vw] lg:h-[95vh] lg:bg-none bg-cover bg-no-repeat"
+        style={{ backgroundImage: innerWidth < 1024 ? "url('small-tiles-gradient.png')" : "url('')" }}
+      >
         <div className="block lg:flex lg:justify-start lg:align-middle lg:items-center lg:flex-col lg:flex-none flex-1 lg:mx-0 mx-12">
           <div className="text-white text-6xl font-extrabold mt-20 lg:mt-48 ml-0 lg:ml-12 lg:leading-relaxed leading-[60px]">
             <div className="lg:mb-0 lg:text-7xl text-[42px] lg:leading-none leading-10 whitespace-nowrap">
