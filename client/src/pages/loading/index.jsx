@@ -2,19 +2,19 @@ const Loading = () => {
   return (
     <>
       <div
-        className="absolute w-full h-full text-white text-4xl bg-large-tiles bg-cover"
+        className="absolute w-full h-full text-white text-4xl bg-cover"
         style={{
-          backgroundImage: "url('large-tiles-gradient.png')",
+          backgroundImage: "url('large-tiles-gradient.webp')",
         }}
       ></div>
       <div
-        className="absolute w-full h-full text-white text-4xl bg-large-tiles blur-md bg-cover"
+        className="absolute w-full h-full text-white text-4xl blur-md bg-cover"
         style={{
-          backgroundImage: "url('large-tiles-gradient.png')",
+          backgroundImage: "url('large-tiles-gradient.webp')",
         }}
       ></div>
       <div className="absolute flex flex-col justify-center items-center w-full h-full text-white text-4xl">
-        <img src="/logo.png" width={240} height="auto" />
+        <img src="/logo.webp" width={240} height="auto" />
         <div className="mt-8">Loading, Please wait.</div>
         <div className="mt-4 text-sm">Cantt College for Girls</div>
         <div className="text-xs">Wah Cantt.</div>

@@ -14,14 +14,14 @@ const Login = () => {
     <div className="login">
       <div 
         className="absolute z-10 justify-center flex text-left lg:justify-normal lg:items-center w-screen h-screen lg:w-[95vw] lg:h-[95vh] lg:bg-none bg-cover bg-no-repeat"
-        style={{ backgroundImage: innerWidth < 1024 ? "url('small-tiles-gradient.png')" : "url('')" }}
+        style={{ backgroundImage: innerWidth < 1024 ? "url('small-tiles-gradient.webp')" : "url('')" }}
       >
         <div className="block lg:flex lg:justify-start lg:align-middle lg:items-center lg:flex-col lg:flex-none flex-1 lg:mx-0 mx-12">
           <div className="text-white text-6xl font-extrabold mt-20 lg:mt-48 ml-0 lg:ml-12 lg:leading-relaxed leading-[60px]">
             <div className="lg:mb-0 lg:text-7xl text-[42px] lg:leading-none leading-10 whitespace-nowrap">
               Cantt College
               <img
-                src="login-lines.svg"
+                src="login-lines.webp"
                 width={440}
                 className="absolute -z-10 -mt-3 ml-2 hidden lg:block"
               />
@@ -43,7 +43,7 @@ const Login = () => {
               }}
             >
               <img
-                src="google-logo.png"
+                src="google-logo.webp"
                 className="group-hover:filter group-hover:brightness-0 group-hover:invert group-hover:grayscale"
                 width={24}
               />
@@ -53,13 +53,17 @@ const Login = () => {
         </div>
       </div>
       <img
-        src="login-vector.svg"
+        src="login-vector.webp"
         className="absolute max-w-screen max-h-screen hidden lg:block"
       />
       <div className="absolute bg-[#1E3A8A] block lg:hidden w-screen h-screen"></div>
       <img
-        src="college.png"
+        src="college.webp"
         className="absolute -z-20 right-0 max-w-screen max-h-screen hidden lg:block bg-cover"
+      />
+      <img
+        src="gradient-overlay.webp"
+        className="absolute -z-10 right-0 max-w-screen max-h-screen hidden lg:block bg-cover"
       />
     </div>
   );
