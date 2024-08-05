@@ -8,24 +8,32 @@ import StudentDetails from "./pages/student-details";
 import NewEnrollment from "./pages/new-enrollment";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchStudents } from "./redux/slices/students";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchSubjects } from "./redux/slices/subjects";
 import { fetchUser } from "./redux/slices/user";
 import { fetchFacultyMembers } from "./redux/slices/faculty";
 import NewFacultyMemberEnrollment from "./pages/new-faculty-member-enrollment";
 import FacultyDetails from "./pages/faculty-details";
 import Login from "./pages/login";
+import Loading from "./pages/loading";
 import Dashboard from "./pages/dashboard";
+import ActivityMonitor from "./pages/activity";
 import { fetchCategories } from "./redux/slices/categories";
 import NotAuthorized from "./pages/not-authorized";
 
 function App() {
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.user);
+  const [loginState, setLoginState] = useState("loading");
+  const LoginComponent = () => loginState == 'loading' ? <Loading /> : <Login />
+
+  useEffect(() => {
+    console.log('Login State', loginState);
+  }, [loginState]);
 
   useEffect(() => {
     // Dispatch necessary items here!
-    dispatch(fetchUser());
+    dispatch(fetchUser()).then((userState) => setLoginState(userState.meta.requestStatus));
     dispatch(fetchStudents());
     dispatch(fetchSubjects());
     dispatch(fetchCategories());
@@ -110,12 +118,22 @@ function App() {
           }
         />
         <Route
+          path="/activity"
+          element={
+            <Home selectedTab="Activity">
+              <ActivityMonitor />
+            </Home>
+          }
+        />
+        <Route
           path="/authorization"
           element={
             <Home selectedTab="Authorization">
               <b className="text-gray-700">Authorization Tab</b>
               <br />
-              <p className="text-gray-700">You may add, allow and authorize user over here!</p>
+              <p className="text-gray-700">
+                You may add, allow and authorize user over here!
+              </p>
             </Home>
           }
         />
@@ -258,12 +276,14 @@ function App() {
     RoleBasedRoutes = (
       <>
         <Route path="/not-authorized" element={<NotAuthorized />} />
-        <Route path="*" element={<Login />} />
+        <Route path="*" element={<LoginComponent />} />
       </>
     );
   }
 
-  return <Routes>{RoleBasedRoutes}</Routes>;
+  return <Routes>
+    {RoleBasedRoutes}
+  </Routes>;
 }
 
 export default App;

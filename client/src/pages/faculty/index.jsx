@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { FaPlus } from "react-icons/fa";
+import { FaArchive, FaEdit, FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { displayModal } from "../../utils/modal";
+import { toast } from "../../utils/notify";
 
 export default function Faculty() {
   const navigate = useNavigate();
@@ -57,7 +59,7 @@ export default function Faculty() {
                     "\u00A0" +
                     member.contractType +
                     "\u00A0" +
-                    member.salary + 
+                    member.salary +
                     "\u00A0";
                   return specifcItems
                     .toUpperCase()
@@ -77,15 +79,11 @@ export default function Faculty() {
                 className="cursor-pointer select-none group flex justify-between gap-x-6 py-5 hover:shadow-xl px-4 transition-all hover:scale-105 hover:bg-red-400 hover:text-white rounded-xl shadow-xl text-slate-700"
               >
                 <div key={index} className="rounded-lg p-3 w-[100%]">
-                  <h3 className="text-xl font-semibold mb-2">
-                    {member.name}
-                  </h3>
+                  <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
                       <p>
-                        <span className="font-semibold">
-                          {"Telephone"}
-                        </span>{" "}
+                        <span className="font-semibold">{"Telephone"}</span>{" "}
                         {member.telephone}
                       </p>
                       <p>
@@ -108,6 +106,29 @@ export default function Faculty() {
                         {member.contractType}
                       </p>
                     </div>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <div className="bg-green-400 px-4 py-3 text-white rounded-md shadow-md transition-all hover:scale-110 mr-2">
+                    <FaEdit size={20} />
+                  </div>
+                  <div
+                    className="bg-red-400 px-4 py-3 text-white rounded-md shadow-md group-hover:bg-white  group-hover:text-red-400 transition-all hover:scale-110"
+                    onClick={async (event) => {
+                      event.stopPropagation();
+                      const result = await displayModal({
+                        title: "Are you sure you want to archive this faculty member?",
+                        subTitle: "Archived accounts are recoverable, but you will not be able to find this record in the application until they are unarchived. Are you sure?",
+                        primaryButton: "Accept",
+                        secondaryButton: "Cancel",
+                      });
+                      if (result === "accept") {
+                        // Handle account delete.
+                        toast("Account archived Successfully!");
+                      }
+                    }}
+                  >
+                    <FaArchive size={20} />
                   </div>
                 </div>
               </li>

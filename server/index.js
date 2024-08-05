@@ -11,10 +11,10 @@ const students = require("./routes/students");
 const subjects = require("./routes/subjects");
 const faculty = require("./routes/faculty");
 // const auth = require("./routes/auth");
-const { web: OAuthDetails } = require("./oauth.json");
 const User = require("./schemas/user");
 const Category = require("./schemas/category");
 const { initializeJobs } = require("./jobs/billing_cycle");
+const { authMiddleWare } = require("./middlewares/auth");
 require("dotenv").config();
 
 // Passport configuration
@@ -121,9 +121,24 @@ app.get(
 
 app.get("/api/user", (req, res) => {
   try {
-    res.json(req.user);
+    if (req.user) {
+      res.status(200).json({
+        ...req.user,
+        authorized: true,
+        message: 'You have been authorized successfully'
+      });
+    } else {
+      res.status(401).json({
+        authorized: false,
+        message: 'Un-authorized'
+      })
+    }
   } catch (error) {
-    res.json({});
+    console.log('Auth Error: ', error);
+    res.json({
+      authorized: false,
+      message: error
+    });
   }
 });
 
@@ -137,15 +152,14 @@ app.get("/logout", (req, res) => {
   });
 });
 
-app.use("/students", students);
-app.use("/subjects", subjects);
-app.use("/faculty", faculty);
+app.use("/students", authMiddleWare, students);
+app.use("/subjects", authMiddleWare, subjects);
+app.use("/faculty", authMiddleWare, faculty);
 
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
   connectWithDatabase();
+  // initializeJobs();
   return true;
 });
-
-// initializeJobs();

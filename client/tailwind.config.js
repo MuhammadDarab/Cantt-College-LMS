@@ -5,6 +5,7 @@ export default {
     extend: {
       backgroundImage: {
         "small-img": "url('small-tiles-gradient.png')",
+        "large-tiles": "url('large-tiles-gradient.png')",
         "none": "url('')",
       },
     },

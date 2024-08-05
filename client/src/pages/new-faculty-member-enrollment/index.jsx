@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaSave } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { toast } from "../../utils/notify";
 import { checkPropertiesNotNull } from "../../utils/validation";
 import { admitFacultyMember } from "../../redux/slices/faculty";
+import JSConfetti from "js-confetti";
 
 const NewFacultyMemberEnrollment = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +17,13 @@ const NewFacultyMemberEnrollment = () => {
     salary: "",
     contractType: "",
   });
+  
+  const [celebrations, setCelebrations] = useState(null);
+  useEffect(() => {
+    if (!celebrations) {
+      setCelebrations(new JSConfetti());
+    }
+  }, []);
 
   const updateFormData = (ev) => {
     const { name, value } = ev.target;
@@ -136,6 +144,7 @@ const NewFacultyMemberEnrollment = () => {
               dispatch(admitFacultyMember(formData)).then(() => {
                 navigate("/faculty");
                 toast("Faculty Member Enrolled Successfully!");
+                celebrations.addConfetti();
               });
             } else {
               toast("Please fill all fields!");

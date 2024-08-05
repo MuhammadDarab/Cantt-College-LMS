@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { toast } from "../../utils/notify";
 import { checkPropertiesNotNull } from "../../utils/validation";
 import { updateFacultyMemberById } from "../../redux/slices/faculty";
+import JSConfetti from "js-confetti";
 
 const FacultyDetails = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,13 @@ const FacultyDetails = () => {
       );
     }
   }, [faculty]);
+
+  const [celebrations, setCelebrations] = useState(null);
+  useEffect(() => {
+    if (!celebrations) {
+      setCelebrations(new JSConfetti());
+    }
+  }, []);
 
   const [formData, setFormData] = useState({
     name: selectedFacultyMember.name,
@@ -212,6 +220,7 @@ const FacultyDetails = () => {
                 ).then(() => {
                   navigate("/faculty");
                   toast("Faculty Member Updated Successfully!");
+                  celebrations.addConfetti();
                 });
               } else {
                 toast("Please fill all fields");
