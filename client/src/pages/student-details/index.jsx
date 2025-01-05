@@ -169,6 +169,9 @@ const StudentDetails = () => {
                     dispatch(
                       updateStudentById({
                         id: selectedStudent._id,
+                        track: {
+                          name: selectedStudent.studentName
+                        },
                         fields: formData,
                       })
                     ).then(() => {

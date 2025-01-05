@@ -1,5 +1,4 @@
 export function checkPropertiesNotNull(obj) {
-  debugger;
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
       if (typeof obj[key] === "object" && obj[key] !== null) {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaSave } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
@@ -29,10 +29,6 @@ const NewEnrollment = () => {
       bankNo: "",
     },
   });
-
-  useEffect(() => {
-    console.log("formData updated!", formData);
-  }, [formData]);
 
   const updateFormData = (ev) => {
     const { name, value } = ev.target;

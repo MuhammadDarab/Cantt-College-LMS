@@ -10,11 +10,15 @@ const session = require("express-session");
 const students = require("./routes/students");
 const subjects = require("./routes/subjects");
 const faculty = require("./routes/faculty");
-// const auth = require("./routes/auth");
+const activity = require("./routes/activity");
+const members = require("./routes/members");
+
 const User = require("./schemas/user");
+const Member = require("./schemas/member");
 const Category = require("./schemas/category");
 const { initializeJobs } = require("./jobs/billing_cycle");
 const { authMiddleWare } = require("./middlewares/auth");
+const { recordActivity } = require("./utils/activity");
 require("dotenv").config();
 
 // Passport configuration
@@ -27,12 +31,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       // Check if the user's email is allowed
-      const parsedAllowedUsers = JSON.parse(
-        process.env.AUTHORIZED_USERS || "[]"
-      );
-      const allowedUser = parsedAllowedUsers.find(
-        (user) => user.email == profile.emails[0].value
-      );
+      const allowedUser = await Member.findOne({ email: profile.emails[0].value })
       if (!allowedUser) {
         return done(null, false, {
           message:
@@ -48,9 +47,7 @@ passport.use(
         const user = {
           googleId: profile.id,
           name: profile.displayName,
-          role: JSON.parse(process.env.AUTHORIZED_USERS || "[]").find(
-            (user) => user.email == profile.emails[0].value
-          ).role,
+          role: allowedUser.role,
           email: profile.emails[0].value,
         };
         const newUser = new User(user);
@@ -152,9 +149,11 @@ app.get("/logout", (req, res) => {
   });
 });
 
-app.use("/students", authMiddleWare, students);
-app.use("/subjects", authMiddleWare, subjects);
-app.use("/faculty", authMiddleWare, faculty);
+app.use("/students", authMiddleWare, recordActivity, students);
+app.use("/subjects", authMiddleWare, recordActivity, subjects);
+app.use("/faculty", authMiddleWare, recordActivity, faculty);
+app.use("/members", authMiddleWare, recordActivity, members);
+app.use("/activity", authMiddleWare, activity);
 
 // Start the server
 app.listen(port, () => {

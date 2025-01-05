@@ -18,8 +18,10 @@ import Login from "./pages/login";
 import Loading from "./pages/loading";
 import Dashboard from "./pages/dashboard";
 import ActivityMonitor from "./pages/activity";
+import Authorization from "./pages/authorization";
 import { fetchCategories } from "./redux/slices/categories";
 import NotAuthorized from "./pages/not-authorized";
+import { fetchAuthorizedMembers } from "./redux/slices/members";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,9 +40,12 @@ function App() {
     dispatch(fetchSubjects());
     dispatch(fetchCategories());
     dispatch(fetchFacultyMembers());
+    dispatch(fetchAuthorizedMembers());
   }, []);
 
   let RoleBasedRoutes = <></>;
+
+  console.log('loggedInUser', loggedInUser);
 
   if (loggedInUser && loggedInUser.role == "principal") {
     RoleBasedRoutes = (
@@ -129,11 +134,7 @@ function App() {
           path="/authorization"
           element={
             <Home selectedTab="Authorization">
-              <b className="text-gray-700">Authorization Tab</b>
-              <br />
-              <p className="text-gray-700">
-                You may add, allow and authorize user over here!
-              </p>
+              <Authorization />
             </Home>
           }
         />

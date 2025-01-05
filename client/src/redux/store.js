@@ -5,6 +5,7 @@ import subjectsReducer from './slices/subjects';
 import facultyReducer from './slices/faculty';
 import userReducer from './slices/user';
 import modalReducer from './slices/modal'
+import membersSlice from './slices/members';
 
 export default configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export default configureStore({
     students: studentsReducer,
     subjects: subjectsReducer,
     faculty: facultyReducer,
+    members: membersSlice,
     modal: modalReducer,
     user: userReducer
   },
