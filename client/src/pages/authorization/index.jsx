@@ -1,19 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArchive, FaEdit, FaSave } from "react-icons/fa";
 import { displayModal } from "../../utils/modal";
 import { toast } from "../../utils/notify";
 import { useDispatch, useSelector } from "react-redux";
-import { authorizeUserAsMember, removeAuthorizedMembers } from "../../redux/slices/members";
+import {
+  authorizeUserAsMember,
+  removeAuthorizedMembers,
+} from "../../redux/slices/members";
 import { useNavigate } from "react-router";
+import JSConfetti from "js-confetti";
 
 const Authorization = () => {
-
   const [formData, setFormData] = useState({
     email: "",
     role: "",
   });
 
-  const members = useSelector((state) => state.members)
+  const [celebrations, setCelebrations] = useState(null);
+  useEffect(() => {
+    if (!celebrations) {
+      setCelebrations(new JSConfetti());
+    }
+  }, []);
+
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
+  const members = useSelector((state) => state.members);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -67,28 +78,27 @@ const Authorization = () => {
             </select>
           </div>
           <div className="ml-auto">
-            <div className="select-none p-4 font-medium text-xl text-white bg-green-400 hover:shadow-lg shadow-xl rounded-xl cursor-pointer transition-all flex items-center hover:scale-105">
+            <div
+              className={`select-none p-4 font-medium text-xl text-white ${isButtonLoading ? 'bg-gray-400' : 'bg-green-400'} hover:shadow-lg shadow-xl rounded-xl cursor-pointer transition-all flex items-center hover:scale-105`}
+              onClick={() => {
+                if (formData.email?.trim() && formData.role?.trim() && isButtonLoading == false) {
+                  setIsButtonLoading(true);
+                  toast("Saving..");
+                  dispatch(authorizeUserAsMember(formData)).then(() => {
+                    navigate("/authorization");
+                    celebrations.addConfetti();
+                    toast("Member Authoirzed Successfully!");
+                    setIsButtonLoading(false);
+                  });
+                } else {
+                  toast("Please fill all fields");
+                }
+              }}
+            >
               <span>
                 <FaSave />
               </span>
-              <span
-                className="ml-4"
-                onClick={() => {
-                  if (
-                    formData.email?.trim() && formData.role?.trim()
-                  ) {
-                    toast("Saving..");
-                    dispatch(authorizeUserAsMember(formData)).then(() => {
-                      navigate("/students");
-                      toast("Member Authoirzed Successfully!");
-                    });
-                  } else {
-                    toast("Please fill all fields");
-                  }
-                }}
-              >
-                Authorize User
-              </span>
+              <span className="ml-4">Authorize User</span>
             </div>
           </div>
         </div>
@@ -119,14 +129,16 @@ const Authorization = () => {
                         title:
                           "Are you sure you want to remove authroization from this member?",
                         subTitle:
-                          "You will need to add them again once removed, Are you sure?",
+                          "You will need to add them again once removed, are you sure you want to proceed with this action?",
                         primaryButton: "Accept",
                         secondaryButton: "Cancel",
                       });
                       if (result === "accept") {
                         // Handle account delete.
                         toast("Account archived Successfully!");
-                        dispatch(removeAuthorizedMembers({email: member.email}));
+                        dispatch(
+                          removeAuthorizedMembers({ email: member.email })
+                        );
                       }
                     }}
                   >

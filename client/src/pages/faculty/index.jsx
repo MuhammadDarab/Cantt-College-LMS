@@ -117,8 +117,10 @@ export default function Faculty() {
                     onClick={async (event) => {
                       event.stopPropagation();
                       const result = await displayModal({
-                        title: "Are you sure you want to archive this faculty member?",
-                        subTitle: "Archived accounts are recoverable, but you will not be able to find this record in the application until they are unarchived. Are you sure?",
+                        title:
+                          "Are you sure you want to archive this faculty member?",
+                        subTitle:
+                          "Archived accounts are recoverable, but you will not be able to find this record in the application until they are unarchived. Are you sure?",
                         primaryButton: "Accept",
                         secondaryButton: "Cancel",
                       });
