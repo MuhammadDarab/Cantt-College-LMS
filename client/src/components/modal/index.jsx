@@ -9,7 +9,7 @@ const Modal = () => {
   if (!modalState.isOpen) return null;
 
   return (
-    <div className="fixed w-full h-full backdrop-blur-md flex justify-center items-center z-30">
+    <div className="fixed w-full h-full backdrop-blur-md bg-black bg-opacity-30 flex justify-center items-center z-30">
       <div className="bg-white w-[40%] rounded-xl shadow-xl">
         <div className="mt-8 mx-10 flex justify-between">
           <div>

@@ -10,7 +10,7 @@ export const authorizeUserAsMember = createAsyncThunk(
 );
 
 export const fetchAuthorizedMembers = createAsyncThunk(
-  "members/authorize-user",
+  "members/get-authorized-users",
   async () => {
     const response = await service.get("/members/get-all-members");
     return response.data;
@@ -31,8 +31,13 @@ export const membersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchAuthorizedMembers.fulfilled, (state, action) => {
-      console.log(state, action)
       return action.payload;
+    });
+    builder.addCase(authorizeUserAsMember.fulfilled, (state, action) => {
+      return [...state, action.payload];
+    });
+    builder.addCase(removeAuthorizedMembers.fulfilled, (state, action) => {
+      return state.filter(item => action.payload._id != item._id);
     });
   },
 });
