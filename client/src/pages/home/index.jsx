@@ -19,13 +19,9 @@ export default function Home({ children, selectedTab }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  function toggleModal(state) {
+  function toggleModal(state) {}
 
-  }
-
-  function onAction(action) {
-    
-  }
+  function onAction(action) {}
 
   useEffect(() => {
     const isDrawerOpenSaved = JSON.parse(localStorage.getItem("isDrawerOpen"));
@@ -117,29 +113,37 @@ export default function Home({ children, selectedTab }) {
           </div>
           <div className="mt-8 flex flex-col h-[85vh]">
             {ROUTES.map((route, index) => (
-              <div
-                key={index}
-                onClick={() => {
-                  if (route.label.toLowerCase() != "logout")
-                    navigate("/" + route.label.toLowerCase());
-                  else
-                    window.location.href =
-                      import.meta.env.VITE_BACKEND_APP_URL + "/logout";
-                }}
-                className={`${
-                  route.label == "Logout"
-                    ? "mt-auto bg-red-400 p-2 hover:p-4 font-bold"
-                    : "hover:bg-red-400 hover:p-3 hover:font-bold font-extralight"
-                } p-2 text-xl text-white hover:shadow-xl rounded-xl cursor-pointer mb-6 transition-all flex items-center ${
-                  selectedTab === route.label ? "border-red-400" : ""
-                }`}
-              >
-                <span>{route.icon}</span>
-                {isDrawerOpen ? (
-                  <span className="ml-4">{route.label}</span>
+              <div key={index} className="relative">
+                {route.label.toLowerCase() === "activity" ? (
+                  <div className="absolute bg-red-600 p-2 rounded-full text-white font-black w-10 h-10 text-center shadow-md -top-2 -rotate-12">
+                    3
+                  </div>
                 ) : (
-                  <></>
+                  ""
                 )}
+                <div
+                  onClick={() => {
+                    if (route.label.toLowerCase() != "logout")
+                      navigate("/" + route.label.toLowerCase());
+                    else
+                      window.location.href =
+                        import.meta.env.VITE_BACKEND_APP_URL + "/logout";
+                  }}
+                  className={`${
+                    route.label == "Logout"
+                      ? "mt-auto bg-red-400 p-2 hover:p-4 font-bold"
+                      : "hover:bg-red-400 hover:p-3 hover:font-bold font-extralight"
+                  } p-2 text-xl text-white hover:shadow-xl rounded-xl cursor-pointer mb-6 transition-all flex items-center ${
+                    selectedTab === route.label ? "border-red-400" : ""
+                  }`}
+                >
+                  <span>{route.icon}</span>
+                  {isDrawerOpen ? (
+                    <span className="ml-4">{route.label}</span>
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
             ))}
           </div>

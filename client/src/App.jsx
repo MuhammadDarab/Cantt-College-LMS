@@ -22,6 +22,7 @@ import Authorization from "./pages/authorization";
 import { fetchCategories } from "./redux/slices/categories";
 import NotAuthorized from "./pages/not-authorized";
 import { fetchAuthorizedMembers } from "./redux/slices/members";
+import { fetchActivities } from "./redux/slices/activity";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,23 +31,21 @@ function App() {
   const LoginComponent = () => loginState == 'loading' ? <Loading /> : <Login />
 
   useEffect(() => {
-    console.log('Login State', loginState);
-  }, [loginState]);
-
-  useEffect(() => {
     // Dispatch necessary items here!
-    dispatch(fetchUser()).then((userState) => setLoginState(userState.meta.requestStatus));
-    dispatch(fetchStudents());
-    dispatch(fetchSubjects());
-    dispatch(fetchCategories());
-    dispatch(fetchFacultyMembers());
-    dispatch(fetchAuthorizedMembers());
+    dispatch(fetchUser()).then((userState) => {
+      if (userState.meta.requestStatus) {
+        setLoginState(userState.meta.requestStatus)
+        dispatch(fetchStudents());
+        dispatch(fetchSubjects());
+        dispatch(fetchCategories());
+        dispatch(fetchFacultyMembers());
+        dispatch(fetchActivities());
+        dispatch(fetchAuthorizedMembers());
+      }
+    });
   }, []);
 
   let RoleBasedRoutes = <></>;
-
-  console.log('loggedInUser', loggedInUser);
-
   if (loggedInUser && loggedInUser.role == "principal") {
     RoleBasedRoutes = (
       <>

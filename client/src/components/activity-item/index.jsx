@@ -6,6 +6,7 @@ const ActivityItem = ({
   isFirstItem = false,
 }) => {
 
+  createdAt = new Date(createdAt);
   const breakOnSpace = title.split(' ');
   const ActivistsName = breakOnSpace[0] + " " + breakOnSpace[1] + " ";
   const restOfTitle = breakOnSpace.slice(2).join(' ');

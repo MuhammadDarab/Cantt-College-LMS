@@ -1,48 +1,9 @@
+import { useSelector } from "react-redux";
 import ActivityItem from "../../components/activity-item";
 
 const ActivityMonitor = () => {
-  const items = [
-    {
-      title: "Muhammad Darab added a new student Haseeb Ali",
-      createdAt: new Date(2024, 7, 1, 10, 0),
-      severity: "LOW",
-    },
-    {
-      title: "Ahmed Qureshi archived faculty member Mr. Farooq",
-      createdAt: new Date(2024, 7, 3, 14, 15),
-      severity: "MEDIUM",
-    },
-    {
-      title: "Usman Tariq archived faculty member Mr. Yaseen",
-      createdAt: new Date(2024, 7, 6, 16, 30),
-      severity: "MEDIUM",
-    },
-    {
-      title: "Hamza Khan added a new student Imran Ali",
-      createdAt: new Date(2024, 7, 7, 17, 45),
-      severity: "LOW",
-    },
-    {
-      title: "Saad Ahmed uploaded results for 3rd year",
-      createdAt: new Date(2024, 7, 8, 8, 30),
-      severity: "MEDIUM",
-    },
-    {
-      title: "Ali Hassan gave role 'principal' to Muhammad Darab",
-      createdAt: new Date(2024, 7, 4, 9, 45),
-      severity: "HIGH",
-    },
-    {
-      title: "Ibrahim Shah archived faculty member Mr. Rashid",
-      createdAt: new Date(2024, 7, 10, 15, 0),
-      severity: "HIGH",
-    },
-    {
-      title: "Muhammad Darab added a new student Haseeb Ali",
-      createdAt: new Date(2024, 7, 1, 10, 0),
-      severity: "LOW",
-    }
-  ].reverse();
+  const items = useSelector(state => state.activity);
+  debugger;
   return (
     <>
       <div className="flex items-start justify-between">
@@ -62,7 +23,7 @@ const ActivityMonitor = () => {
             items.map((item, index) => (
               <ActivityItem
                 {...item}
-                isUnreadFromHere={index == 2}
+                isUnreadFromHere={index == 6}
                 isFirstItem={index == items.length - 1}
                 key={index}
               />

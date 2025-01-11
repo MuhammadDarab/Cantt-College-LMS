@@ -6,10 +6,12 @@ import facultyReducer from './slices/faculty';
 import userReducer from './slices/user';
 import modalReducer from './slices/modal'
 import membersSlice from './slices/members';
+import activitiesSlice from './slices/activity';
 
 export default configureStore({
   reducer: {
     categories: categoryReducer,
+    activity: activitiesSlice,
     students: studentsReducer,
     subjects: subjectsReducer,
     faculty: facultyReducer,

@@ -17,6 +17,14 @@ export const fetchAuthorizedMembers = createAsyncThunk(
   }
 );
 
+export const removeAuthorizedMembers = createAsyncThunk(
+  "members/unauthorize-member",
+  async (payload) => {
+    const response = await service.post("/members/unauthorize-member", payload);
+    return response.data;
+  }
+);
+
 export const membersSlice = createSlice({
   name: "members",
   initialState: [],

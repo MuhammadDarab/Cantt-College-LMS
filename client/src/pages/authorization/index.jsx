@@ -3,7 +3,7 @@ import { FaArchive, FaEdit, FaSave } from "react-icons/fa";
 import { displayModal } from "../../utils/modal";
 import { toast } from "../../utils/notify";
 import { useDispatch, useSelector } from "react-redux";
-import { authorizeUserAsMember } from "../../redux/slices/members";
+import { authorizeUserAsMember, removeAuthorizedMembers } from "../../redux/slices/members";
 import { useNavigate } from "react-router";
 
 const Authorization = () => {
@@ -126,6 +126,7 @@ const Authorization = () => {
                       if (result === "accept") {
                         // Handle account delete.
                         toast("Account archived Successfully!");
+                        dispatch(removeAuthorizedMembers({email: member.email}));
                       }
                     }}
                   >

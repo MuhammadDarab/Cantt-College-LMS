@@ -29,4 +29,14 @@ router.post("/authorize-user", async (req, res) => {
   }
 });
 
+router.post("/unauthorize-member", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const disallowedMember = await Member.findOneAndDelete({ email });
+    res.json(disallowedMember);
+  } catch (error) {
+    res.json({ error: true });
+  }
+});
+
 module.exports = router;
