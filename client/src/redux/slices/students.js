@@ -25,6 +25,14 @@ export const admitStudent = createAsyncThunk(
   }
 );
 
+export const archiveStudent = createAsyncThunk(
+  "students/archiveStudent",
+  async (payload) => {
+    const response = await service.post("/students/archive-student", payload);
+    return response.data;
+  }
+);
+
 export const studentsSlice = createSlice({
   name: "students",
   initialState: [],
@@ -38,6 +46,9 @@ export const studentsSlice = createSlice({
     });
     builder.addCase(admitStudent.fulfilled, (state, action) => {
       return [...state, action.payload];
+    });
+    builder.addCase(archiveStudent.fulfilled, (state, action) => {
+      return state.filter(item => action.payload._id != item._id);
     });
   },
 });

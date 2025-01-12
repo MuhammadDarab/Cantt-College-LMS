@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import { GiHamburgerMenu } from "react-icons/gi";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { TbLogout2 } from "react-icons/tb";
 import { useSelector } from "react-redux";
 import Modal from "../../components/modal";
@@ -39,11 +39,14 @@ export default function Home({ children, selectedTab }) {
   const navigate = useNavigate();
 
   let ROUTES = [];
+  const COMMON_ROUTES = [
+    { label: "Dashboard", icon: <FaHome size={30} /> },
+    { label: "Attendance", icon: <FaCalendar size={30} /> },
+    { label: "Students", icon: <FaListUl size={30} /> },
+  ];
   if (user.role == "principal") {
     ROUTES = [
-      { label: "Dashboard", icon: <FaHome size={30} /> },
-      { label: "Attendance", icon: <FaCalendar size={30} /> },
-      { label: "Students", icon: <FaListUl size={30} /> },
+      ...COMMON_ROUTES,
       { label: "Faculty", icon: <FaBookOpen size={30} /> },
       { label: "Finances", icon: <FaDollarSign size={30} /> },
       { label: "Activity", icon: <FaHistory size={30} /> },
@@ -52,19 +55,14 @@ export default function Home({ children, selectedTab }) {
     ];
   } else if (user.role == "admin") {
     ROUTES = [
-      { label: "Dashboard", icon: <FaHome size={30} /> },
-      { label: "Attendance", icon: <FaCalendar size={30} /> },
-      { label: "Students", icon: <FaListUl size={30} /> },
+      ...COMMON_ROUTES,
       { label: "Faculty", icon: <FaBookOpen size={30} /> },
       { label: "Finances", icon: <FaDollarSign size={30} /> },
-      { label: "Activity", icon: <FaHistory size={30} /> },
       { label: "Logout", icon: <TbLogout2 size={30} /> },
     ];
   } else if (user.role == "teacher") {
     ROUTES = [
-      { label: "Dashboard", icon: <FaHome size={30} /> },
-      { label: "Attendance", icon: <FaCalendar size={30} /> },
-      { label: "Students", icon: <FaListUl size={30} /> },
+      ...COMMON_ROUTES,
       { label: "Logout", icon: <TbLogout2 size={30} /> },
     ];
   }
@@ -113,7 +111,7 @@ export default function Home({ children, selectedTab }) {
           </div>
           <div className="mt-8 flex flex-col h-[85vh]">
             {ROUTES.map((route, index) => (
-              <div key={index} className="relative">
+              <div key={index} className={`relative ${route.label.toLowerCase() == 'logout' ? 'mt-auto' : ''}`}>
                 {route.label.toLowerCase() === "activity" ? (
                   <div className="absolute bg-red-600 p-2 rounded-full text-white font-black w-10 h-10 text-center shadow-md -top-2 -rotate-12">
                     3

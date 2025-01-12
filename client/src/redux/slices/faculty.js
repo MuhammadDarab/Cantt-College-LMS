@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import service from "../../service";
 
 export const fetchFacultyMembers = createAsyncThunk(
-  "faculty/fetchFacultyMembers",
+  "fetchFacultyMembers",
   async () => {
     const response = await service.get("/faculty/get-complete-faculty");
     return response.data;
@@ -10,7 +10,7 @@ export const fetchFacultyMembers = createAsyncThunk(
 );
 
 export const updateFacultyMemberById = createAsyncThunk(
-  "faculty/updateFacultyMemberById",
+  "updateFacultyMemberById",
   async (payload) => {
     const response = await service.post("/faculty/update-faculty-member", payload);
     return response.data;
@@ -18,9 +18,17 @@ export const updateFacultyMemberById = createAsyncThunk(
 );
 
 export const admitFacultyMember = createAsyncThunk(
-  "faculty/admitFacultyMember",
+  "admitFacultyMember",
   async (payload) => {
     const response = await service.post("/faculty/admit-faculty-member", payload);
+    return response.data;
+  }
+);
+
+export const archiveFacultyMember = createAsyncThunk(
+  "archiveFacultyMember",
+  async (payload) => {
+    const response = await service.post("/faculty/archive-faculty-member", payload);
     return response.data;
   }
 );
@@ -38,6 +46,9 @@ export const facultySlice = createSlice({
     });
     builder.addCase(admitFacultyMember.fulfilled, (state, action) => {
       return [...state, action.payload];
+    });
+    builder.addCase(archiveFacultyMember.fulfilled, (state, action) => {
+      return state.filter(item => action.payload._id != item._id);
     });
   },
 });

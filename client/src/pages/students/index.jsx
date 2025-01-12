@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { FaCheckCircle, FaPlus } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { FaArchive, FaCheckCircle, FaEdit, FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { MdPending } from "react-icons/md";
+import { displayModal } from "../../utils/modal";
+import { toast } from "../../utils/notify";
+import { archiveStudent } from "../../redux/slices/students";
+import { openEditing } from "../../redux/slices/navigation";
 
 export default function Students() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const students = useSelector((state) => state.students);
   const user = useSelector((state) => state.user);
   const [filteredStudents, setFilteredStudents] = useState([]);
@@ -46,32 +51,7 @@ export default function Students() {
             type="text"
             className="border-b-2 border-red-400 outline-none"
             placeholder="Search Anything.."
-            onChange={(ev) =>
-              setFilteredStudents(
-                students.filter((student) => {
-                  if (ev.target.value.trim() == "") return true;
-                  const specifcItems =
-                    student.studentName +
-                    "\u00A0" +
-                    student.fatherName +
-                    "\u00A0" +
-                    student.dateOfBirth +
-                    "\u00A0" +
-                    student.enrolledIn +
-                    "\u00A0" +
-                    student.rollNo +
-                    "\u00A0" +
-                    student.category.title +
-                    "\u00A0" +
-                    student.category.subjects
-                      .map((item) => item.name)
-                      .join("\u00A0");
-                  return specifcItems
-                    .toUpperCase()
-                    .includes(ev.target.value.toUpperCase());
-                })
-              )
-            }
+            onChange={(ev) => onSearch(ev, setFilteredStudents, students)}
           />
         </div>
         <ul role="list" className="divide-y divide-gray-100">
@@ -170,6 +150,23 @@ export default function Students() {
                           Submitted From: IBAN - PK0024556889123
                         </span>
                       </div>
+                      <div className="flex items-center mt-2">
+                        <div className="bg-green-400 px-4 py-3 text-white rounded-md shadow-md transition-all hover:scale-110 mr-2"
+                          onClick={(ev) => {
+                            ev.stopPropagation();
+                            dispatch(openEditing(true));
+                            navigate("/students/" + student._id)
+                          }}
+                        >
+                          <FaEdit size={20} />
+                        </div>
+                        <div
+                          className="bg-red-400 px-4 py-3 text-white rounded-md shadow-md group-hover:bg-white  group-hover:text-red-400 transition-all hover:scale-110"
+                          onClick={(ev) => onStudentArchive(ev, student, dispatch)}
+                        >
+                          <FaArchive size={20} />
+                        </div>
+                      </div>
                     </>
                   )}
                 </div>
@@ -190,3 +187,42 @@ export default function Students() {
     </>
   );
 }
+
+const onStudentArchive = async (ev, student, dispatch) => {
+  ev.stopPropagation();
+  const result = await displayModal({
+    title: "Are you sure you want to archive this student?",
+    subTitle:
+      "Once archived, you will not be albe to see their details, Are you sure you wish to proceed?",
+    primaryButton: "Accept",
+    secondaryButton: "Cancel",
+  });
+  if (result === "accept") {
+    // Handle account delete.
+    dispatch(archiveStudent({ id: student._id }))
+    toast("Student archived successfully!");
+  }
+};
+
+const onSearch = (ev, setFilteredStudents, students) => {
+  setFilteredStudents(
+    students.filter((student) => {
+      if (ev.target.value.trim() == "") return true;
+      const specifcItems =
+        student.studentName +
+        "\u00A0" +
+        student.fatherName +
+        "\u00A0" +
+        student.dateOfBirth +
+        "\u00A0" +
+        student.enrolledIn +
+        "\u00A0" +
+        student.rollNo +
+        "\u00A0" +
+        student.category.title +
+        "\u00A0" +
+        student.category.subjects.map((item) => item.name).join("\u00A0");
+      return specifcItems.toUpperCase().includes(ev.target.value.toUpperCase());
+    })
+  );
+};
