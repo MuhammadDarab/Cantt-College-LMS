@@ -3,7 +3,6 @@ import ActivityItem from "../../components/activity-item";
 
 const ActivityMonitor = () => {
   const items = useSelector(state => state.activity);
-  debugger;
   return (
     <>
       <div className="flex items-start justify-between">

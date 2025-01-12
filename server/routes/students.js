@@ -104,6 +104,21 @@ router.post("/admit-student", (req, res) => {
     });
 });
 
+router.post("/archive-student", async (req, res) => {
+  try {
+    const id = req.body.id;
+    if (!id) {
+      res.send(400);
+      return -1;
+    }
+    const archivedFacultyMember = 
+      await Student.findOneAndDelete({ _id: id });
+    res.status(200).send(archivedFacultyMember);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 router.post("/update-student", async (req, res) => {
   try {
     const id = req.body.id;

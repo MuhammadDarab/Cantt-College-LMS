@@ -1,15 +1,23 @@
 import { useState, useEffect } from "react";
-import { FaCheckCircle, FaPen, FaReceipt, FaSave } from "react-icons/fa";
+import {
+  FaArchive,
+  FaCheckCircle,
+  FaPen,
+  FaReceipt,
+  FaSave,
+} from "react-icons/fa";
 import { RiArrowDropDownLine, RiArrowDropRightLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { updateStudentById } from "../../redux/slices/students";
+import { archiveStudent, updateStudentById } from "../../redux/slices/students";
 import { toast } from "../../utils/notify";
 import { checkPropertiesNotNull } from "../../utils/validation";
 import html2pdf from "html2pdf.js";
 import JSConfetti from "js-confetti";
 import InfoTip from "../../components/info-tip";
 import { AnimatePresence, motion } from "framer-motion";
+import { displayModal } from "../../utils/modal";
+import { openEditing } from "../../redux/slices/navigation";
 
 function getPopulatedVoucher(selectedStudent, htmlContent) {
   htmlContent = htmlContent.replaceAll(
@@ -71,13 +79,15 @@ const StudentDetails = () => {
   const studentId = window.location.pathname.split("/students/")[1];
   const students = useSelector((state) => state.students);
   const [celebrations, setCelebrations] = useState(null);
-  const [allowModification, setAllowModification] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState({});
   const [transactionHistoryOpened, setTransactionHistoryOpened] = useState(-1);
   const user = useSelector((state) => state.user);
   const categories = useSelector((state) => state.categories);
+  const openInEditMode = useSelector(state => state.navigation.openInEditMode);
+  const [allowModification, setAllowModification] = useState(openInEditMode);
 
   useEffect(() => {
+    dispatch(openEditing(false));
     if (!celebrations) {
       setCelebrations(new JSConfetti());
     }
@@ -153,48 +163,70 @@ const StudentDetails = () => {
             Personal Information
           </div>
           {user.role == "principal" || user.role == "admin" ? (
-            <div
-              onClick={() => {
-                if (!allowModification) {
-                  setAllowModification(true);
-                  toast("You are now editing the student record..");
-                } else {
-                  if (
-                    checkPropertiesNotNull(formData) &&
-                    (formData.category == undefined ||
-                      (Array.isArray(formData.category) &&
-                        formData.category.length))
-                  ) {
-                    toast("Saving..");
-                    dispatch(
-                      updateStudentById({
-                        id: selectedStudent._id,
-                        track: {
-                          name: selectedStudent.studentName
-                        },
-                        fields: formData,
-                      })
-                    ).then(() => {
-                      navigate("/students");
-                      toast("Student Updated Successfully!");
-                    });
+            <>
+              <div
+                onClick={() => {
+                  if (!allowModification) {
+                    setAllowModification(true);
+                    toast("You are now editing the student record..");
                   } else {
-                    toast("Please fill all fields");
+                    if (
+                      checkPropertiesNotNull(formData) &&
+                      (formData.category == undefined ||
+                        (Array.isArray(formData.category) &&
+                          formData.category.length))
+                    ) {
+                      toast("Saving..");
+                      dispatch(
+                        updateStudentById({
+                          id: selectedStudent._id,
+                          track: {
+                            name: selectedStudent.studentName,
+                          },
+                          fields: formData,
+                        })
+                      ).then(() => {
+                        navigate("/students");
+                        toast("Student Updated Successfully!");
+                      });
+                    } else {
+                      toast("Please fill all fields");
+                    }
                   }
-                }
-              }}
-              className={`select-none p-4 font-medium text-xl text-white ${
-                !allowModification ? "bg-red-400" : "bg-green-500"
-              } hover:shadow-lg shadow-xl rounded-xl cursor-pointer transition-all flex items-center hover:scale-105 w-fit`}
-            >
-              <span>{!allowModification ? <FaPen /> : <FaSave />}</span>
-              <span className="ml-4">
-                {" "}
-                {!allowModification
-                  ? "Update Student Info"
-                  : "Update Student Details"}
-              </span>
-            </div>
+                }}
+                className={`select-none p-4 font-medium text-xl text-white bg-green-500 hover:shadow-lg shadow-xl rounded-xl cursor-pointer transition-all flex items-center hover:scale-105 w-fit`}
+              >
+                <span>{!allowModification ? <FaPen /> : <FaSave />}</span>
+                <span className="ml-4">
+                  {" "}
+                  {!allowModification ? "Update Record" : "Save Changes"}
+                </span>
+              </div>
+              <div
+                onClick={async (event) => {
+                  event.stopPropagation();
+                  const result = await displayModal({
+                    title:
+                      "Are you sure you want to archive this student?",
+                    subTitle:
+                      "You will need to add them again once removed, are you sure you want to proceed with this action?",
+                    primaryButton: "Accept",
+                    secondaryButton: "Cancel",
+                  });
+                  if (result === "accept") {
+                    // Handle account delete.
+                    toast("Student archived Successfully!");
+                    dispatch(archiveStudent({ id: studentId })).then(() => navigate('/students'))
+                  }
+                }}
+                className={`ml-5 select-none p-4 font-medium text-xl text-white bg-red-400 hover:shadow-lg shadow-xl rounded-xl cursor-pointer transition-all flex items-center hover:scale-105 w-fit`}
+              >
+                <span>
+                  <FaArchive />
+                </span>
+                <span className="ml-4">Archive Record</span>
+              </div>
+            </>
           ) : (
             <></>
           )}

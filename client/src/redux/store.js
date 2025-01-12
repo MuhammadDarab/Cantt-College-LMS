@@ -7,10 +7,12 @@ import userReducer from './slices/user';
 import modalReducer from './slices/modal'
 import membersSlice from './slices/members';
 import activitiesSlice from './slices/activity';
+import navigationSlice from './slices/navigation';
 
 export default configureStore({
   reducer: {
     categories: categoryReducer,
+    navigation: navigationSlice,
     activity: activitiesSlice,
     students: studentsReducer,
     subjects: subjectsReducer,

@@ -1,20 +1,24 @@
 import { useState, useEffect } from "react";
-import { FaPen, FaSave } from "react-icons/fa";
+import { FaArchive, FaPen, FaSave } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { toast } from "../../utils/notify";
 import { checkPropertiesNotNull } from "../../utils/validation";
-import { updateFacultyMemberById } from "../../redux/slices/faculty";
+import { archiveFacultyMember, updateFacultyMemberById } from "../../redux/slices/faculty";
 import JSConfetti from "js-confetti";
+import { displayModal } from "../../utils/modal";
+import { openEditing } from "../../redux/slices/navigation";
 
 const FacultyDetails = () => {
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const facultyMemberId = window.location.pathname.split("/faculty/")[1];
   const faculty = useSelector((state) => state.faculty);
-  const [allowModification, setAllowModification] = useState(false);
+  const openInEditMode = useSelector(state => state.navigation.openInEditMode);
+  const [allowModification, setAllowModification] = useState(openInEditMode);
   const [selectedFacultyMember, setSelectedFacultyMember] = useState({});
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (faculty.length) {
@@ -26,6 +30,7 @@ const FacultyDetails = () => {
 
   const [celebrations, setCelebrations] = useState(null);
   useEffect(() => {
+    dispatch(openEditing(false));
     if (!celebrations) {
       setCelebrations(new JSConfetti());
     }
@@ -53,7 +58,9 @@ const FacultyDetails = () => {
     <>
       <div>
         <div className="text-4xl font-bold text-slate-700 mb-2">
-          {!allowModification ? "Faculty Member Details" : "Update Faculty Member"}
+          {!allowModification
+            ? "Faculty Member Details"
+            : "Update Faculty Member"}
         </div>
         <div className="text-sm font-extralight text-slate-700 mb-4">
           {!allowModification
@@ -206,45 +213,64 @@ const FacultyDetails = () => {
             )}
           </div>
         </div>
-        <div
-          onClick={() => {
-            if (!allowModification) {
-              setAllowModification(true);
-            } else {
-              if (checkPropertiesNotNull(formData)) {
-                dispatch(
-                  updateFacultyMemberById({
-                    id: selectedFacultyMember._id,
-                    fields: formData,
-                  })
-                ).then(() => {
-                  navigate("/faculty");
-                  toast("Faculty Member Updated Successfully!");
-                  celebrations.addConfetti();
-                });
+        <div className="flex flex-row">
+          <div
+            onClick={() => {
+              if (!allowModification) {
+                setAllowModification(true);
               } else {
-                toast("Please fill all fields");
+                if (checkPropertiesNotNull(formData)) {
+                  dispatch(
+                    updateFacultyMemberById({
+                      id: selectedFacultyMember._id,
+                      fields: formData,
+                    })
+                  ).then(() => {
+                    navigate("/faculty");
+                    toast("Faculty Member Updated Successfully!");
+                    celebrations.addConfetti();
+                  });
+                } else {
+                  toast("Please fill all fields");
+                }
               }
-            }
-          }}
-          className={`select-none p-4 font-medium text-xl text-white ${
-            !allowModification ? "bg-red-400" : "bg-green-400"
-          } hover:shadow-lg shadow-xl rounded-xl cursor-pointer mb-6 transition-all flex items-center hover:scale-105 w-fit ml-auto`}
-        >
-          <span>
-            {!allowModification
-              ? <FaPen />
-              : <FaSave />}
-          </span>
-          <span className="ml-4">
-            {!allowModification
-              ? "Edit Record"
-              : "Save Changes"}
-          </span>
+            }}
+            className={`select-none p-4 font-medium text-xl text-white bg-green-400 hover:shadow-lg shadow-xl rounded-xl cursor-pointer mb-6 transition-all flex items-center hover:scale-105 w-fit ml-auto`}
+          >
+            <span>{!allowModification ? <FaPen /> : <FaSave />}</span>
+            <span className="ml-4">
+              {!allowModification ? "Edit Record" : "Save Changes"}
+            </span>
+          </div>
+          <div className={`select-none p-4 font-medium text-xl text-white bg-red-400 hover:shadow-lg shadow-xl rounded-xl cursor-pointer mb-6 transition-all flex items-center hover:scale-105 w-fit ml-6`}
+            onClick={(ev) => onArchive(ev, selectedFacultyMember, dispatch, navigate)}
+          >
+            <span><FaArchive /></span>
+            <span className="ml-4">Archive Record</span>
+          </div>
         </div>
       </div>
     </>
   );
 };
+
+const onArchive = async (event, member, dispatch, navigate) => {
+  event.stopPropagation();
+  const result = await displayModal({
+    title:
+      "Are you sure you want to archive this faculty member?",
+    subTitle:
+      "Archived accounts are recoverable, but you will not be able to find this record in the application until they are unarchived. Are you sure?",
+    primaryButton: "Accept",
+    secondaryButton: "Cancel",
+  });
+  if (result === "accept") {
+    dispatch(archiveFacultyMember({ id: member._id })).then(() => {
+      // Handle account delete.
+      toast("Account archived Successfully!");
+      navigate('/faculty')
+    });
+  }
+}
 
 export default FacultyDetails;

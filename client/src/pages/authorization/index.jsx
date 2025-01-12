@@ -135,7 +135,7 @@ const Authorization = () => {
                       });
                       if (result === "accept") {
                         // Handle account delete.
-                        toast("Account archived Successfully!");
+                        toast("User Un-authorized Successfully!");
                         dispatch(
                           removeAuthorizedMembers({ email: member.email })
                         );

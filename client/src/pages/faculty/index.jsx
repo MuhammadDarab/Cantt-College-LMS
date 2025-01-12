@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaArchive, FaEdit, FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { displayModal } from "../../utils/modal";
 import { toast } from "../../utils/notify";
+import { archiveFacultyMember } from "../../redux/slices/faculty";
+import { openEditing } from "../../redux/slices/navigation";
 
 export default function Faculty() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const faculty = useSelector((state) => state.faculty);
   const [filteredFaculty, setFilteredFaculty] = useState([]);
 
@@ -109,26 +112,19 @@ export default function Faculty() {
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <div className="bg-green-400 px-4 py-3 text-white rounded-md shadow-md transition-all hover:scale-110 mr-2">
+                  <div
+                    className="bg-green-400 px-4 py-3 text-white rounded-md shadow-md transition-all hover:scale-110 mr-2"
+                    onClick={(ev) => {
+                      ev.stopPropagation();
+                      dispatch(openEditing(true));
+                      navigate("/faculty/" + member._id)
+                    }}
+                  >
                     <FaEdit size={20} />
                   </div>
                   <div
                     className="bg-red-400 px-4 py-3 text-white rounded-md shadow-md group-hover:bg-white  group-hover:text-red-400 transition-all hover:scale-110"
-                    onClick={async (event) => {
-                      event.stopPropagation();
-                      const result = await displayModal({
-                        title:
-                          "Are you sure you want to archive this faculty member?",
-                        subTitle:
-                          "Archived accounts are recoverable, but you will not be able to find this record in the application until they are unarchived. Are you sure?",
-                        primaryButton: "Accept",
-                        secondaryButton: "Cancel",
-                      });
-                      if (result === "accept") {
-                        // Handle account delete.
-                        toast("Account archived Successfully!");
-                      }
-                    }}
+                    onClick={(ev) => onArchive(ev, member, dispatch)}
                   >
                     <FaArchive size={20} />
                   </div>
@@ -149,4 +145,22 @@ export default function Faculty() {
       </div>
     </>
   );
+}
+
+const onArchive = async (event, member, dispatch) => {
+  event.stopPropagation();
+  const result = await displayModal({
+    title:
+      "Are you sure you want to archive this faculty member?",
+    subTitle:
+      "Archived accounts are recoverable, but you will not be able to find this record in the application until they are unarchived. Are you sure?",
+    primaryButton: "Accept",
+    secondaryButton: "Cancel",
+  });
+  if (result === "accept") {
+    dispatch(archiveFacultyMember({ id: member._id })).then(() => {
+      // Handle account delete.
+      toast("Account archived Successfully!");
+    });
+  }
 }
